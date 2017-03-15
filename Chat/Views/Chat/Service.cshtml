@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="~/Content/CSS/userChat.css">
+</head>
+<body>
+    <div class="container">
+        <input type="hidden" id="username" />
+        <input type="hidden" id="userconnectionid" value="" />
+    </div>
+    <div id="chat" class="ui-widget-content">
+        <div class="operation">
+            <p class="titleImg"><img src="~/Content/Images/ls.png"><i>admin</i></p>
+        </div>
+        <div class="chatMain">
+            <ul class="chatMainContentUl"></ul>
+            <div class="chatMainSendContent">
+                <i class="icon"></i>
+                <textarea class="chatMainSendInput"></textarea>
+                <button class="sendMegBtn">发送</button>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/JS/jquery-3.1.1.min.js"></script>
+    <script src="~/Content/JS/jquery-ui.js"></script>
+    <script>
+        var sendMegBtn = $('.sendMegBtn');
+        //用户输入内容框
+        var chatMainSendInput = $('.chatMainSendInput');
+
+        ////  发送键点击事件
+        //sendMegBtn.click(function () {
+        //    if(chatMainSendInput.val() !== ""){
+        //        common.servRender(chatMainSendInput);
+        //        common.scrollBottom($('.chatMainContentUl'));
+        //    }
+        //})
+
+        //  enter发送信息
+        $(document).keyup(function (e) {
+            if (e.keyCode == 13) {
+                SendMessage();
+            }
+        })
+
+        var common = {
+            //个位数补零
+            Appendzero: function (obj) {
+                if (obj < 10) return "0" + obj; else return obj;
+            },
+            //滚动条始终底部
+            scrollBottom: function (obj) {
+                obj.scrollTop(obj[0].scrollHeight);
+            },
+            userRender: function (username, message) {
+                //        当前时间
+                var myDate = new Date();
+                var year = myDate.getFullYear();
+                var month = myDate.getMonth() + 1;
+                var day = myDate.getDate();
+                var hour = myDate.getHours();
+                var minute = myDate.getMinutes();
+                var second = myDate.getSeconds();
+
+                //用户对话框
+                var userchat =
+                    '<li class="chatMainContentLi chatMainContentLiRight">' +
+                    '<img src="/Content/Images/ls.png"/>' +
+                    '<div class="chatMainContentLiTime chatMainContentLiTimeRight">' +
+                    '<ul><li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
+                    '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
+                    '<li><p>' + username + '</p></li></ul>' +
+                    '<div class="chatMainContentLiLear chatMainContentLiRight">' +
+                    '<span class="chatMainContentLiChat chatMainContentLiChatRight">' + message + '</span>' +
+                    '<div class="triangle-up triangle-upRight"></div>' +
+                    '</div></div>' +
+                    '</li>';
+                $('.chatMainContentUl').append(userchat);
+                common.scrollBottom($('.chatMainContentUl'));
+            },
+            servRender: function (username, message) {
+                //        当前时间
+                var myDate = new Date();
+                var year = myDate.getFullYear();
+                var month = myDate.getMonth() + 1;
+                var day = myDate.getDate();
+                var hour = myDate.getHours();
+                var minute = myDate.getMinutes();
+                var second = myDate.getSeconds();
+                //用户对话框
+                var servchat =
+                    '<li class="chatMainContentLi chatMainContentLiLeft">' +
+                    '<img src="/Content/Images/jdw.png"/>' +
+                    '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
+                    '<ul><li><p>' + username + '</p></li>' +
+                    '<li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
+                    '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li></ul>' +
+                    '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
+                    '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + message + '</span>' +
+                    '<div class="triangle-up triangle-upLeft"></div>' +
+                    '</div></div>' +
+                    '</li>';
+                $('.chatMainContentUl').append(servchat);
+                common.scrollBottom($('.chatMainContentUl'));
+            }
+        }
+    </script>
+
+    @section scripts {
+        <!--Script references. -->
+        <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+        <!--Reference the SignalR library. -->
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+        <!--Reference the autogenerated SignalR hub script. -->
+        <script src="~/signalr/hubs"></script>
+        <!--SignalR script to update the chat page and send messages.-->
+        <script>
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = common.servRender;
+            chat.client.loginWarm = function () {
+                alert("登录状态已失效！请重新登录！");
+                //跳转到登录页面代码
+            };
+            chat.client.onUserDisconnected = function (username) {
+                //掉线提示
+                alert("警告！您的账户已经在其他地方登录！");
+                //弹出登录窗口
+            };
+            chat.client.addNewClientTagToPage = function (userconnectionid, username, img) {
+                //例如在消息框中间显示某些提示文字信息，如“客户***需要咨询，近期可能会联系你”
+                //UserConnectionId 为客户链接id， 需要保存在页面中，下次发送信息时带上此参数
+                //userName 客户名称，需要保存在页面中，下次发送信息时带上此参数
+                $('#userconnectionid').val(userconnectionid);
+                $('#username').val(username);
+            };
+            chat.client.loseUserWarm = function () {
+                //提示客服该用户已经掉线
+                alert("抱歉！客户***可能由于网络原因已经掉线！");
+            };
+            //// Get the user name and store it to prepend to messages.
+            //$('#username').val(prompt('Enter your name:', ''));
+            //// Set initial focus to message input box.
+            //$('#chatMainSendInput').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                chat.server.sConnect("1", "admin");
+                $('.sendMegBtn').click(SendMessage);
+            });
+            function SendMessage() {
+                // Call the Send method on the hub.
+                chat.server.sSend($('#userconnectionid').val(), "admin", $('.chatMainSendInput').val());
+                //addNewMessage("admin", $('#chatMainSendInput').val());
+                common.userRender("admin", $('.chatMainSendInput').val());
+                //chat.server.send("admin", $('#chatMainSendInput').val());
+                // Clear text box and reset focus for next comment.
+                $('.chatMainSendInput').val('').focus();
+            }
+        </script>
+    }
+</body>
+</html>
