@@ -127,28 +127,6 @@ namespace Chat
             }
             return null;
         }
-        ///// <summary>
-        ///// 发送私聊信息
-        ///// </summary>
-        ///// <param name="toUserId">接收方id</param>
-        ///// <param name="message"></param>
-        //public void USendPrivateMessage(string toUserId, string message)
-        //{
-        //    string fromUserId = Context.ConnectionId;
-        //    var toUser = ConnectedUsers.FirstOrDefault(it => it.FromConnectionId == toUserId);
-        //    var fromUser = ConnectedUsers.FirstOrDefault(it => it.FromConnectionId == fromUserId);
-        //    if (toUser != null && fromUser != null)
-        //    {
-        //        //发送消息
-        //        Clients.Client(toUserId).receivePrivateMessage(fromUserId, fromUser.UserName, message);
-        //        //Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message);
-        //    }
-        //    else
-        //    {
-        //        //对方不在线
-        //        Clients.Caller.absentSubscriber();
-        //    }
-        //}
         #endregion
 
 
@@ -245,29 +223,7 @@ namespace Chat
                 }
             }
         }
-        
-        ///// <summary>
-        ///// 发送私聊信息
-        ///// </summary>
-        ///// <param name="toUserId">接收方id</param>
-        ///// <param name="message"></param>
-        //public void SSendPrivateMessage(string toUserId, string message)
-        //{
-        //    string fromUserId = Context.ConnectionId;
-        //    var toUser = ConnectedServices.FirstOrDefault(it => it.FromConnectionId == toUserId);
-        //    var fromUser = ConnectedServices.FirstOrDefault(it => it.FromConnectionId == fromUserId);
-        //    if (toUser != null && fromUser != null)
-        //    {
-        //        //发送消息
-        //        Clients.Client(toUserId).receivePrivateMessage(fromUserId, fromUser.UserName, message);
-        //        //Clients.Caller.sendPrivateMessage(toUserId, fromUser.UserName, message);
-        //    }
-        //    else
-        //    {
-        //        //对方不在线
-        //        Clients.Caller.absentSubscriber();
-        //    }
-        //}
+
         #endregion
 
 

@@ -30,15 +30,7 @@
         //用户输入内容框
         var chatMainSendInput = $('.chatMainSendInput');
 
-        ////  发送键点击事件
-        //sendMegBtn.click(function () {
-        //    if(chatMainSendInput.val() !== ""){
-        //        common.servRender(chatMainSendInput);
-        //        common.scrollBottom($('.chatMainContentUl'));
-        //    }
-        //})
-
-        //  enter发送信息
+        //enter发送信息
         $(document).keyup(function (e) {
             if (e.keyCode == 13) {
                 SendMessage();
@@ -141,10 +133,6 @@
                 //提示客服该用户已经掉线
                 alert("抱歉！客户***可能由于网络原因已经掉线！");
             };
-            //// Get the user name and store it to prepend to messages.
-            //$('#username').val(prompt('Enter your name:', ''));
-            //// Set initial focus to message input box.
-            //$('#chatMainSendInput').focus();
             // Start the connection.
             $.connection.hub.start().done(function () {
                 chat.server.sConnect("1", "admin");
@@ -153,10 +141,7 @@
             function SendMessage() {
                 // Call the Send method on the hub.
                 chat.server.sSend($('#userconnectionid').val(), "admin", $('.chatMainSendInput').val());
-                //addNewMessage("admin", $('#chatMainSendInput').val());
                 common.userRender("admin", $('.chatMainSendInput').val());
-                //chat.server.send("admin", $('#chatMainSendInput').val());
-                // Clear text box and reset focus for next comment.
                 $('.chatMainSendInput').val('').focus();
             }
         </script>

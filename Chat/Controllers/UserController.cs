@@ -28,7 +28,7 @@ namespace Chat.Controllers
                 ret.Code = 101;
                 ret.Message = "用户名或密码错误！请重试！";
                 ret.Data = null;
-            } 
+            }
             else
             {
                 ret.Code = 0;

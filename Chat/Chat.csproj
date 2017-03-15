@@ -263,7 +263,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\chatHtml\chatMain.html" />
     <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\JS\jquery-3.1.1.min.js" />
     <Content Include="Content\JS\jquery-ui.js" />
