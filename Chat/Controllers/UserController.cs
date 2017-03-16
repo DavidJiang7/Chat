@@ -16,18 +16,28 @@ namespace Chat.Controllers
         /// <summary>
         /// 用户登录
         /// </summary>
-        /// <param name="account">账户名</param>
+        /// <param name="username">账户名</param>
         /// <param name="pass">密码</param>
         /// <returns></returns>
-        public ActionResult LoginApi(string account, string password)
-        {
+        public ActionResult LoginApi(string username, string password)
+        {            
             Models.RespObject ret = new Models.RespObject();
-            var res = Servers.User.Login(account, password);
+            username = username.Trim();
+            password = password.Trim();
+            if (username == "" || password == "")
+            {
+                ret.Code = Utils.Error.Error1000.Code;
+                ret.Message = Utils.Error.Error1000.Message;
+                ret.Data = null;
+                return Json(ret);
+            }
+            var res = Servers.User.Login(username, password);
             if (res == null)
             {
-                ret.Code = 101;
-                ret.Message = "用户名或密码错误！请重试！";
+                ret.Code = Utils.Error.Error1001.Code;
+                ret.Message = Utils.Error.Error1001.Message;
                 ret.Data = null;
+                return Json(ret);
             }
             else
             {

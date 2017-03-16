@@ -199,6 +199,7 @@
     <Compile Include="User_Account.cs">
       <DependentUpon>ChatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Error.cs" />
     <Compile Include="Utils\Http.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\Rand.cs" />

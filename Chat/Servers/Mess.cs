@@ -40,5 +40,26 @@ namespace Chat.Servers
                 return 0;
             }
         }
+
+        /// <summary>
+        /// 根据 客服id 获取最近 dayOffset 天数内的聊天记录
+        /// </summary>
+        /// <param name="userId">客服id</param>
+        /// <param name="dayOffset">最近多少天内</param>
+        /// <returns></returns>
+        public static Models.RespServiceCurrentMess[] GetCurrentMess(int userId, int dayOffset)
+        {
+            try
+            {
+                using (ChatEntities db = new ChatEntities())
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
