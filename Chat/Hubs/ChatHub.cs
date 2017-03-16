@@ -68,7 +68,8 @@ namespace Chat
         /// </summary>
         /// <param name="userID">用户id</param>
         /// <param name="userName">用户名</param>
-        public void UConnect(int userID, string userName)
+        /// <param name="img">头像</param>
+        public void UConnect(int userID, string userName, string img)
         {
             if (userID <= 0 || userName == "")
             {
@@ -99,9 +100,9 @@ namespace Chat
                     //添加在线人员，并分配服务人员 
                     ConnectedUsers.Add(new Models.User { FromConnectionId = id, ToConnectionId = toConnectionId, UserId = userID, UserName = userName, Img = "" });
                     //反馈登录成功信息给用户，并说明已为其分配的客服人员信息
-                    Clients.Caller.onConnected(service.FromConnectionId, service.UserName);
+                    Clients.Caller.onConnected(service.FromConnectionId, service.UserName, service.Img);
                     //提醒客服有新的客户需要咨询
-                    Clients.Client(service.FromConnectionId).addNewClientTagToPage(id, userName, "http://192.168.1.159:9090/content/images/jdw.jpg");
+                    Clients.Client(service.FromConnectionId).addNewClientTagToPage(id, userName, img);
                     ////通知其他所有用户，有新用户链接进来
                     //Clients.AllExcept(id).onNewUserConnected(id, userID, userName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 }

@@ -124,10 +124,11 @@
                 alert("警告！您的账户已经在其他地方登录！");
                 //弹出登录窗口
             };
-            chat.client.onConnected = function (serviceconnectionid, username) {
+            chat.client.onConnected = function (serviceconnectionid, username, img) {
                 //例如在消息框中间显示某些提示文字信息，如“已为您分配***客服，可以开始咨询了”
                 //ServiceConnectionId 为客服链接id， 需要保存在页面中，下次发送信息时带上此参数
                 //userName 客服名称，需要保存在页面中，下次发送信息时带上此参数
+                //img 头像
                 $('#serviceconnectionid').val(serviceconnectionid);
                 $('#username').val(username);
                 alert("已为您分配客服人员：" + username);
