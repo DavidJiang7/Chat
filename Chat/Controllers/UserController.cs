@@ -19,7 +19,8 @@ namespace Chat.Controllers
         /// <param name="username">账户名</param>
         /// <param name="pass">密码</param>
         /// <returns></returns>
-        public ActionResult LoginApi(string username, string password)
+        [HttpPost]
+        public JsonResult LoginApi(string username, string password)
         {            
             Models.RespObject ret = new Models.RespObject();
             username = username.Trim();
