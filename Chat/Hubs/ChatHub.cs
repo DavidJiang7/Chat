@@ -66,9 +66,9 @@ namespace Chat
         /// <summary>
         /// 用户登录
         /// </summary>
-        /// <param name="userID">用户id</param>
-        /// <param name="userName">用户名</param>
-        /// <param name="img">头像</param>
+        /// <param name="userID">客户id</param>
+        /// <param name="userName">客户用户名</param>
+        /// <param name="img">客户头像</param>
         public void UConnect(int userID, string userName, string img)
         {
             if (userID <= 0 || userName == "")
@@ -188,7 +188,8 @@ namespace Chat
         /// </summary>
         /// <param name="userID">用户id</param>
         /// <param name="userName">用户名</param>
-        public void SConnect(int userID, string userName)
+        /// <param name="img">头像</param>
+        public void SConnect(int userID, string userName, string img)
         {
             if (userID <= 0 || userName == "")
             {
@@ -215,7 +216,7 @@ namespace Chat
                         ConnectedServices.RemoveAll(it => it.UserId == userID);
                     }
                     //添加在线人员，并分配服务人员 
-                    ConnectedServices.Add(new Models.User { FromConnectionId = id, UserId = userID, UserName = userName, Img = "" });
+                    ConnectedServices.Add(new Models.User { FromConnectionId = id, UserId = userID, UserName = userName, Img = img });
                 }
                 else
                 {

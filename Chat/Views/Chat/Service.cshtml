@@ -135,8 +135,10 @@
             };
             // Start the connection.
             $.connection.hub.start().done(function () {
-                chat.server.sConnect("1", "admin");
-                $('.sendMegBtn').click(SendMessage);
+                //客户链接signalr服务器，参数依次是客服id、客服用户名、客服头像
+                //当登录状态链接失败时，后台会调用loginWarm
+                chat.server.sConnect("1", "admin", "http://192.168.1.159/Content/Images/ls.png");
+                $('.sendMegBtn').click(SendMessage);//绑定发送信息函数
             });
             function SendMessage() {
                 // Call the Send method on the hub.

@@ -128,20 +128,21 @@
                 //例如在消息框中间显示某些提示文字信息，如“已为您分配***客服，可以开始咨询了”
                 //ServiceConnectionId 为客服链接id， 需要保存在页面中，下次发送信息时带上此参数
                 //userName 客服名称，需要保存在页面中，下次发送信息时带上此参数
-                //img 头像
+                //img 客服头像
                 $('#serviceconnectionid').val(serviceconnectionid);
                 $('#username').val(username);
                 alert("已为您分配客服人员：" + username);
             };
             chat.client.loseServiceWarm = function () {
                 //提示用户客服已经掉线，刷新页面，重新链接
-                alert("抱歉！为您分配的客服***可能由于网络原因已经掉线！");
+                alert("抱歉！为您分配的客服***可能由于网络原因已经掉线！"); 
                 //刷新页面
             };
             // Start the connection.
             $.connection.hub.start().done(function () {
-                chat.server.uConnect(3, "jdw");
-                //chat.server.connect("", "");//当登录状态链接失败时，后台会调用loginWarm
+                //客户链接signalr服务器，当登录状态链接失败时，后台会调用loginWarm
+                chat.server.uConnect(3, "jdw", "http://192.168.1.159/Content/Images/jdw.png");
+                //绑定发送信息函数
                 $('.sendMegBtn').click(SendMessage);
             });
             function SendMessage() {
