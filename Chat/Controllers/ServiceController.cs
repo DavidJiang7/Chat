@@ -23,6 +23,7 @@ namespace Chat.Controllers
         [HttpPost]
         public JsonResult LoginApi(string username, string password)
         {
+            HttpContext.Response.AddHeader("Access-Control-Allow-Origin", "*");
             try
             {
                 username = username.Trim();
@@ -68,6 +69,7 @@ namespace Chat.Controllers
         [HttpGet]
         public JsonResult GetCurrentMess(int dayOffset = 7, int messSize = 20)
         {
+            HttpContext.Response.AddHeader("Access-Control-Allow-Origin", "*");
             try
             {
                 Models.RespObject ret = new Models.RespObject();
@@ -112,6 +114,7 @@ namespace Chat.Controllers
         /// <returns></returns>
         public JsonResult GetMoreMess(int userId, int offset, int messSize = 20)
         {
+            HttpContext.Response.AddHeader("Access-Control-Allow-Origin", "*");
             try
             {
                 Models.RespObject ret = new Models.RespObject();

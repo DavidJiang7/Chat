@@ -22,6 +22,7 @@ namespace Chat.Controllers
         [HttpPost]
         public JsonResult LoginApi(string username, string password)
         {
+            HttpContext.Response.AddHeader("Access-Control-Allow-Origin", "*");
             try
             {
                 Models.RespObject ret = new Models.RespObject();
