@@ -21,32 +21,39 @@ namespace Chat.Controllers
         /// <returns></returns>
         [HttpPost]
         public JsonResult LoginApi(string username, string password)
-        {            
-            Models.RespObject ret = new Models.RespObject();
-            username = username.Trim();
-            password = password.Trim();
-            if (username == "" || password == "")
+        {
+            try
             {
-                ret.Code = Utils.Error.Error1000.Code;
-                ret.Message = Utils.Error.Error1000.Message;
-                ret.Data = null;
+                Models.RespObject ret = new Models.RespObject();
+                username = username.Trim();
+                password = password.Trim();
+                if (username == "" || password == "")
+                {
+                    ret.Code = Utils.Error.Error1000.Code;
+                    ret.Message = Utils.Error.Error1000.Message;
+                    ret.Data = null;
+                    return Json(ret);
+                }
+                var res = Servers.User.Login(username, password);
+                if (res == null)
+                {
+                    ret.Code = Utils.Error.Error1001.Code;
+                    ret.Message = Utils.Error.Error1001.Message;
+                    ret.Data = null;
+                    return Json(ret);
+                }
+                else
+                {
+                    ret.Code = 0;
+                    ret.Message = "";
+                    ret.Data = new { UserName = res.U_UserName, UserId = res.id, NickName = res.U_NickName, Img = res.U_Icon };
+                }
                 return Json(ret);
             }
-            var res = Servers.User.Login(username, password);
-            if (res == null)
+            catch
             {
-                ret.Code = Utils.Error.Error1001.Code;
-                ret.Message = Utils.Error.Error1001.Message;
-                ret.Data = null;
-                return Json(ret);
+                return null;
             }
-            else
-            {
-                ret.Code = 0;
-                ret.Message = "";
-                ret.Data = new { UserName = res.U_UserName, UserId = res.id, NickName = res.U_NickName, Img = res.U_Icon };
-            }
-            return Json(ret);
         }
     }
 }

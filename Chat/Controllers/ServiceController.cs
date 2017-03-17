@@ -23,33 +23,40 @@ namespace Chat.Controllers
         [HttpPost]
         public JsonResult LoginApi(string username, string password)
         {
-            username = username.Trim();
-            password = password.Trim();
-            Models.RespObject ret = new Models.RespObject();
-            if (username == "" || password == "")
+            try
             {
-                ret.Code = Utils.Error.Error1000.Code;
-                ret.Message = Utils.Error.Error1000.Message;
-                ret.Data = null;
+                username = username.Trim();
+                password = password.Trim();
+                Models.RespObject ret = new Models.RespObject();
+                if (username == "" || password == "")
+                {
+                    ret.Code = Utils.Error.Error1000.Code;
+                    ret.Message = Utils.Error.Error1000.Message;
+                    ret.Data = null;
+                    return Json(ret);
+                }
+                var res = Servers.Service.Login(username, password);
+                if (res == null)
+                {
+                    ret.Code = Utils.Error.Error1001.Code;
+                    ret.Message = Utils.Error.Error1001.Message;
+                    ret.Data = null;
+                    return Json(ret);
+                }
+                else
+                {
+                    Session["ServiceId"] = res.id;
+                    Session["ServiceUserName"] = res.A_UserName;
+                    ret.Code = 0;
+                    ret.Message = "";
+                    ret.Data = new { UserName = res.A_UserName, UserId = res.id, NickName = res.A_RealName, Img = res.A_Icon };
+                }
                 return Json(ret);
             }
-            var res = Servers.Service.Login(username, password);
-            if (res == null)
+            catch
             {
-                ret.Code = Utils.Error.Error1001.Code;
-                ret.Message = Utils.Error.Error1001.Message;
-                ret.Data = null;
-                return Json(ret);
+                return null;
             }
-            else
-            {
-                Session["ServiceId"] = res.id;
-                Session["ServiceUserName"] = res.A_UserName;
-                ret.Code = 0;
-                ret.Message = "";
-                ret.Data = new { UserName = res.A_UserName, UserId = res.id, NickName = res.A_RealName, Img = res.A_Icon };
-            }
-            return Json(ret);
         }
 
         /// <summary>
@@ -61,32 +68,39 @@ namespace Chat.Controllers
         [HttpGet]
         public JsonResult GetCurrentMess(int dayOffset = 7, int messSize = 20)
         {
-            Models.RespObject ret = new Models.RespObject();
-            if (dayOffset < 0)
+            try
             {
-                ret.Code = Utils.Error.Error1000.Code;
-                ret.Message = Utils.Error.Error1000.Message;
-                ret.Data = null;
+                Models.RespObject ret = new Models.RespObject();
+                if (dayOffset < 0)
+                {
+                    ret.Code = Utils.Error.Error1000.Code;
+                    ret.Message = Utils.Error.Error1000.Message;
+                    ret.Data = null;
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+                var id = Session["ServiceId"];
+                if (id == null || (int)id <= 0)
+                {
+                    ret.Code = Utils.Error.Error1002.Code;
+                    ret.Message = Utils.Error.Error1002.Message;
+                    ret.Data = null;
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    dayOffset = dayOffset > 30 ? 30 : (dayOffset <= 0 ? 7 : dayOffset);
+                    messSize = messSize > 50 ? 50 : (messSize <= 0 ? 20 : messSize);
+                    var data = Servers.Mess.GetCurrentMess((int)id, dayOffset, messSize);
+                    ret.Code = 0;
+                    ret.Message = "";
+                    ret.Data = data;
+                }
                 return Json(ret, JsonRequestBehavior.AllowGet);
             }
-            var id = Session["ServiceId"];
-            if (id == null || (int)id <= 0)
+            catch
             {
-                ret.Code = Utils.Error.Error1002.Code;
-                ret.Message = Utils.Error.Error1002.Message;
-                ret.Data = null;
-                return Json(ret, JsonRequestBehavior.AllowGet);
+                return null;
             }
-            else
-            {
-                dayOffset = dayOffset > 30 ? 30 : (dayOffset <= 0 ? 7 : dayOffset);
-                messSize = messSize > 50 ? 50 : (messSize <= 0 ? 20 : messSize);
-                var data = Servers.Mess.GetCurrentMess((int)id, dayOffset, messSize);
-                ret.Code = 0;
-                ret.Message = "";
-                ret.Data = data;
-            }
-            return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -98,32 +112,39 @@ namespace Chat.Controllers
         /// <returns></returns>
         public JsonResult GetMoreMess(int userId, int offset, int messSize = 20)
         {
-            Models.RespObject ret = new Models.RespObject();
-            if (userId < 0)
+            try
             {
-                ret.Code = Utils.Error.Error1000.Code;
-                ret.Message = Utils.Error.Error1000.Message;
-                ret.Data = null;
+                Models.RespObject ret = new Models.RespObject();
+                if (userId < 0)
+                {
+                    ret.Code = Utils.Error.Error1000.Code;
+                    ret.Message = Utils.Error.Error1000.Message;
+                    ret.Data = null;
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+                var id = Session["ServiceId"];
+                if (id == null || (int)id <= 0)
+                {
+                    ret.Code = Utils.Error.Error1002.Code;
+                    ret.Message = Utils.Error.Error1002.Message;
+                    ret.Data = null;
+                    return Json(ret, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    offset = offset <= 0 ? 0 : offset;
+                    messSize = messSize > 50 ? 50 : (messSize <= 0 ? 20 : messSize);
+                    var data = Servers.Mess.GetMoreMess(userId, (int)id, offset, messSize);
+                    ret.Code = 0;
+                    ret.Message = "";
+                    ret.Data = data;
+                }
                 return Json(ret, JsonRequestBehavior.AllowGet);
             }
-            var id = Session["ServiceId"];
-            if (id == null || (int)id <= 0)
+            catch
             {
-                ret.Code = Utils.Error.Error1002.Code;
-                ret.Message = Utils.Error.Error1002.Message;
-                ret.Data = null;
-                return Json(ret, JsonRequestBehavior.AllowGet);
+                return null;
             }
-            else
-            {
-                offset = offset <= 0 ? 0 : offset;
-                messSize = messSize > 50 ? 50 : (messSize <= 0 ? 20 : messSize);
-                var data = Servers.Mess.GetMoreMess(userId, (int)id, offset, messSize);
-                ret.Code = 0;
-                ret.Message = "";
-                ret.Data = data;
-            }
-            return Json(ret, JsonRequestBehavior.AllowGet);
         }
     }
 }
