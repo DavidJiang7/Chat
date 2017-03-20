@@ -16,10 +16,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 08:43:40</publishTime>
     </File>
     <File Include="bin/Chat.dll">
-      <publishTime>03/20/2017 17:00:47</publishTime>
+      <publishTime>03/20/2017 17:26:52</publishTime>
     </File>
     <File Include="bin/Chat.pdb">
-      <publishTime>03/20/2017 17:00:47</publishTime>
+      <publishTime>03/20/2017 17:26:52</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/03/2015 17:43:42</publishTime>
@@ -262,7 +262,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/15/2017 19:15:47</publishTime>
     </File>
     <File Include="Views/Chat/Index.cshtml">
-      <publishTime>03/17/2017 10:51:56</publishTime>
+      <publishTime>03/20/2017 17:24:27</publishTime>
     </File>
     <File Include="Views/Chat/Service.cshtml">
       <publishTime>03/17/2017 10:53:36</publishTime>
@@ -292,7 +292,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/20/2017 11:39:41</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/20/2017 16:20:58</publishTime>
+      <publishTime>03/20/2017 17:26:59</publishTime>
     </File>
   </ItemGroup>
 </Project>

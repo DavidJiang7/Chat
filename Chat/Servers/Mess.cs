@@ -35,8 +35,9 @@ namespace Chat.Servers
                     return m.MESS_Id;
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return 0;
             }
         }
@@ -56,15 +57,15 @@ namespace Chat.Servers
                 using (ChatEntities db = new ChatEntities())
                 {
                     var res = (from m in db.Message
-                              where m.MESS_ServiceId == userId
-                              && m.MESS_CreateTime > d
-                              group m by m.MESS_UserId into g
-                              select new
-                              {
-                                  UserId = g.Key,
-                                  Number = g.Count(),
-                                  MaxCreateTime = g.Max(it => it.MESS_CreateTime)
-                              }).OrderByDescending(it => it.MaxCreateTime).ToArray();
+                               where m.MESS_ServiceId == userId
+                               && m.MESS_CreateTime > d
+                               group m by m.MESS_UserId into g
+                               select new
+                               {
+                                   UserId = g.Key,
+                                   Number = g.Count(),
+                                   MaxCreateTime = g.Max(it => it.MESS_CreateTime)
+                               }).OrderByDescending(it => it.MaxCreateTime).ToArray();
                     if (res == null || res.Length <= 0)
                     {
                         return null;
@@ -87,8 +88,9 @@ namespace Chat.Servers
                     return resultArray;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
@@ -110,8 +112,9 @@ namespace Chat.Servers
                     return db.Message.Where(it => it.MESS_UserId == userId && it.MESS_ServiceId == ServiceId).OrderByDescending(it => it.MESS_CreateTime).Skip(offset).Take(messSize).ToList();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }

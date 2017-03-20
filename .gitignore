@@ -9,3 +9,5 @@ err/
 obj/
 *.pdb
 *.vshost.exe.manifest
+*.pubxml
+*.pubxml.user
