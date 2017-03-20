@@ -240,6 +240,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\CSS\fonts\iconfont.eot" />
+    <Content Include="Content\CSS\fonts\iconfont.ttf" />
+    <Content Include="Content\CSS\fonts\iconfont.woff" />
     <EntityDeploy Include="ChatModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ChatModel.Designer.cs</LastGenOutput>
@@ -247,9 +250,7 @@
     <Content Include="ChatModel.edmx.diagram">
       <DependentUpon>ChatModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\CSS\fonts\iconfont.eot" />
-    <Content Include="Content\CSS\fonts\iconfont.ttf" />
-    <Content Include="Content\CSS\fonts\iconfont.woff" />
+    <None Include="Properties\PublishProfiles\麦子网客服.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -267,7 +268,9 @@
     <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\JS\jquery-3.1.1.min.js" />
     <Content Include="Content\JS\jquery-ui.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

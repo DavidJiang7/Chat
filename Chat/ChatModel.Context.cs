@@ -26,8 +26,8 @@ namespace Chat
         }
     
         public virtual DbSet<Base_Admins> Base_Admins { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<MessageType> MessageType { get; set; }
         public virtual DbSet<User_Account> User_Account { get; set; }
-        public virtual DbSet<Message> Message { get; set; }
     }
 }

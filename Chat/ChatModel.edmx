@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Base_Admins">
           <Key>
             <PropertyRef Name="id" />
@@ -54,7 +54,8 @@
           <EntitySet Name="MessageType" EntityType="Self.MessageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Account" EntityType="Self.User_Account" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -67,6 +68,19 @@
           <Property Name="A_Loginpwd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="A_RealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="A_Icon" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MESS_Id" />
+          </Key>
+          <Property Name="MESS_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MESS_UserId" Type="Int32" Nullable="false" />
+          <Property Name="MESS_ServiceId" Type="Int32" Nullable="false" />
+          <Property Name="MESS_Status" Type="Int32" Nullable="false" />
+          <Property Name="MESS_TypeId" Type="Int32" Nullable="false" />
+          <Property Name="MESS_CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MESS_Content" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MESS_Author" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MessageType">
           <Key>
@@ -90,23 +104,10 @@
         </EntityType>
         <EntityContainer Name="ChatEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Base_Admins" EntityType="Self.Base_Admins" />
+          <EntitySet Name="Message" EntityType="Self.Message" />
           <EntitySet Name="MessageType" EntityType="Self.MessageType" />
           <EntitySet Name="User_Account" EntityType="Self.User_Account" />
-          <EntitySet Name="Message" EntityType="ChatModel.Message" />
         </EntityContainer>
-        <EntityType Name="Message">
-          <Key>
-            <PropertyRef Name="MESS_Id" />
-          </Key>
-          <Property Name="MESS_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MESS_UserId" Type="Int32" Nullable="false" />
-          <Property Name="MESS_ServiceId" Type="Int32" Nullable="false" />
-          <Property Name="MESS_Status" Type="Int32" Nullable="false" />
-          <Property Name="MESS_TypeId" Type="Int32" Nullable="false" />
-          <Property Name="MESS_CreateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MESS_Content" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="MESS_Author" Type="Int32" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -116,11 +117,25 @@
           <EntitySetMapping Name="Base_Admins">
             <EntityTypeMapping TypeName="ChatModel.Base_Admins">
               <MappingFragment StoreEntitySet="Base_Admins">
-                <ScalarProperty Name="A_Icon" ColumnName="A_Icon" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="A_UserName" ColumnName="A_UserName" />
                 <ScalarProperty Name="A_Loginpwd" ColumnName="A_Loginpwd" />
                 <ScalarProperty Name="A_RealName" ColumnName="A_RealName" />
+                <ScalarProperty Name="A_Icon" ColumnName="A_Icon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="ChatModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="MESS_Id" ColumnName="MESS_Id" />
+                <ScalarProperty Name="MESS_UserId" ColumnName="MESS_UserId" />
+                <ScalarProperty Name="MESS_ServiceId" ColumnName="MESS_ServiceId" />
+                <ScalarProperty Name="MESS_Status" ColumnName="MESS_Status" />
+                <ScalarProperty Name="MESS_TypeId" ColumnName="MESS_TypeId" />
+                <ScalarProperty Name="MESS_CreateTime" ColumnName="MESS_CreateTime" />
+                <ScalarProperty Name="MESS_Content" ColumnName="MESS_Content" />
+                <ScalarProperty Name="MESS_Author" ColumnName="MESS_Author" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -143,20 +158,6 @@
                 <ScalarProperty Name="U_NickName" ColumnName="U_NickName" />
                 <ScalarProperty Name="U_Icon" ColumnName="U_Icon" />
                 <ScalarProperty Name="U_RegTime" ColumnName="U_RegTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Message">
-            <EntityTypeMapping TypeName="ChatModel.Message">
-              <MappingFragment StoreEntitySet="Message">
-                <ScalarProperty Name="MESS_Author" ColumnName="MESS_Author" />
-                <ScalarProperty Name="MESS_Content" ColumnName="MESS_Content" />
-                <ScalarProperty Name="MESS_CreateTime" ColumnName="MESS_CreateTime" />
-                <ScalarProperty Name="MESS_TypeId" ColumnName="MESS_TypeId" />
-                <ScalarProperty Name="MESS_Status" ColumnName="MESS_Status" />
-                <ScalarProperty Name="MESS_ServiceId" ColumnName="MESS_ServiceId" />
-                <ScalarProperty Name="MESS_UserId" ColumnName="MESS_UserId" />
-                <ScalarProperty Name="MESS_Id" ColumnName="MESS_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

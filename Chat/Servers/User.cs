@@ -26,8 +26,9 @@ namespace Chat.Servers
                     return db.User_Account.FirstOrDefault(it => it.U_UserName == userName && it.U_PassWord == password);
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }

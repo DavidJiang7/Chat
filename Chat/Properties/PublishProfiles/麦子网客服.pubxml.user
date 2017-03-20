@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Files\Web</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/22/2013 08:43:40</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>02/22/2013 08:43:40</publishTime>
+    </File>
+    <File Include="bin/Chat.dll">
+      <publishTime>03/20/2017 17:00:47</publishTime>
+    </File>
+    <File Include="bin/Chat.pdb">
+      <publishTime>03/20/2017 17:00:47</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>11/03/2015 17:43:42</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>11/03/2015 17:43:42</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.SignalR.Core.dll">
+      <publishTime>12/15/2014 01:51:18</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.SignalR.SystemWeb.dll">
+      <publishTime>12/15/2014 01:51:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>06/15/2015 02:06:24</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>01/13/2014 16:11:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>01/13/2014 16:11:04</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>01/13/2014 16:11:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>04/23/2012 15:23:58</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>08/03/2014 20:33:56</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>11/13/2012 12:19:34</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>06/18/2015 20:19:44</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/28/2015 04:02:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>02/11/2014 15:26:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/28/2015 04:02:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>01/28/2015 04:04:30</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>09/10/2013 17:28:38</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/EntityFramework.resources.dll">
+      <publishTime>11/03/2015 17:43:56</publishTime>
+    </File>
+    <File Include="ChatModel.edmx.diagram">
+      <publishTime>03/20/2017 15:01:43</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Content/CSS/font-awesome.css">
+      <publishTime>03/08/2017 18:54:19</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/fontawesome-webfont.eot">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/fontawesome-webfont.svg">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/fontawesome-webfont.ttf">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/fontawesome-webfont.woff">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/fontawesome-webfont.woff2">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/FontAwesome.otf">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/iconfont.eot">
+      <publishTime>03/15/2017 14:01:15</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/iconfont.svg">
+      <publishTime>03/15/2017 14:01:15</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/iconfont.ttf">
+      <publishTime>03/15/2017 14:01:15</publishTime>
+    </File>
+    <File Include="Content/CSS/fonts/iconfont.woff">
+      <publishTime>03/15/2017 14:01:15</publishTime>
+    </File>
+    <File Include="Content/CSS/iconfont.css">
+      <publishTime>03/15/2017 14:01:15</publishTime>
+    </File>
+    <File Include="Content/CSS/userChat.css">
+      <publishTime>03/15/2017 16:46:45</publishTime>
+    </File>
+    <File Include="Content/Images/jdw.png">
+      <publishTime>03/13/2017 17:12:33</publishTime>
+    </File>
+    <File Include="Content/Images/ls.png">
+      <publishTime>03/13/2017 17:08:16</publishTime>
+    </File>
+    <File Include="Content/Images/xyp.png">
+      <publishTime>03/13/2017 17:15:20</publishTime>
+    </File>
+    <File Include="Content/Images/zhangq.jpg">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/Images/zmz.png">
+      <publishTime>03/13/2017 17:08:50</publishTime>
+    </File>
+    <File Include="Content/JS/chathubservice.js">
+      <publishTime>03/15/2017 14:21:09</publishTime>
+    </File>
+    <File Include="Content/JS/chathubuser.js">
+      <publishTime>03/15/2017 14:18:07</publishTime>
+    </File>
+    <File Include="Content/JS/jquery-3.1.1.min.js">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/JS/jquery-ui.js">
+      <publishTime>03/08/2017 11:06:55</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>03/15/2017 16:40:53</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>03/08/2017 16:59:35</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>03/08/2017 16:59:35</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>03/13/2017 16:08:21</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>03/08/2017 16:59:37</publishTime>
+    </File>
+    <File Include="Scripts/jquery.signalR-2.2.0.js">
+      <publishTime>03/10/2017 16:42:14</publishTime>
+    </File>
+    <File Include="Scripts/jquery.signalR-2.2.0.min.js">
+      <publishTime>03/10/2017 16:42:14</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>03/08/2017 16:59:42</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>03/08/2017 16:59:42</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>03/08/2017 16:59:43</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>03/08/2017 16:59:43</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>03/08/2017 16:59:41</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>03/08/2017 16:59:42</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>03/08/2017 16:59:42</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>03/15/2017 19:15:47</publishTime>
+    </File>
+    <File Include="Views/Chat/Index.cshtml">
+      <publishTime>03/17/2017 10:51:56</publishTime>
+    </File>
+    <File Include="Views/Chat/Service.cshtml">
+      <publishTime>03/17/2017 10:53:36</publishTime>
+    </File>
+    <File Include="Views/Home/About.cshtml">
+      <publishTime>03/15/2017 20:05:19</publishTime>
+    </File>
+    <File Include="Views/Home/Chat.cshtml">
+      <publishTime>03/15/2017 20:04:14</publishTime>
+    </File>
+    <File Include="Views/Home/Contact.cshtml">
+      <publishTime>03/08/2017 16:59:35</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>03/15/2017 20:04:19</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>03/08/2017 16:59:35</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>03/08/2017 16:59:35</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>03/17/2017 20:05:58</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>03/20/2017 11:39:41</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>03/20/2017 16:20:58</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
