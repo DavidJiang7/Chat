@@ -232,8 +232,10 @@
     <Content Include="Content\Images\xyp.png" />
     <Content Include="Content\Images\zhangq.jpg" />
     <Content Include="Content\Images\zmz.png" />
+    <Content Include="Content\JS\bootstrap.min.js" />
     <Content Include="Content\JS\chathubservice.js" />
     <Content Include="Content\JS\chathubuser.js" />
+    <Content Include="Content\JS\jquery.cookie.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -1,152 +1,207 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="~/Content/CSS/userChat.css">
-</head>
-<body>
-    <div class="container">
-        <input type="hidden" id="username" />
-        <input type="hidden" id="userconnectionid" value="" />
+﻿<link rel="stylesheet" href="~/Content/CSS/userChat.css" />
+<link rel="stylesheet" href="~/Content/CSS/iconfont.css" />
+@*<link rel="stylesheet" href="~/Content/bootstrap.min.css" />*@
+<div class="container">
+    <input type="hidden" id="username" />
+    <input type="hidden" id="userconnectionid" value="" />
+</div>
+<div id="chat" class="ui-widget-content">
+    <div class="operation">
+        <p class="titleImg"><img id="UserImg" src="~/Content/Images/ls.png"><i id="UserName">admin</i></p>
     </div>
-    <div id="chat" class="ui-widget-content">
-        <div class="operation">
-            <p class="titleImg"><img src="~/Content/Images/ls.png"><i>admin</i></p>
+    <div class="chatMain">
+        <ul class="chatMainContentUl"></ul>
+        <div class="chatMainSendContent">
+            <i class="icon"></i>
+            <textarea class="chatMainSendInput"></textarea>
+            <button class="sendMegBtn">发送</button>
         </div>
-        <div class="chatMain">
-            <ul class="chatMainContentUl"></ul>
-            <div class="chatMainSendContent">
-                <i class="icon"></i>
-                <textarea class="chatMainSendInput"></textarea>
-                <button class="sendMegBtn">发送</button>
+    </div>
+</div>
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    登录
+</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:400px;height:400px;margin:200px auto;">
+            <!--下面是用户名输入框-->
+            <div class="input-group" style="margin-top: 110px;">
+                <span class="input-group-addon icon iconfont icon-user"></span>
+                <input id="userName" type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1">
+            </div>
+            <br>
+            <!--下面是密码输入框-->
+            <div class="input-group">
+                <span class="input-group-addon icon iconfont icon-mima"></span>
+                <input id="passWord" type="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+            </div>
+            <br>
+            <!--下面是登陆按钮,包括颜色控制-->
+            <div class="input-group">
+                <button type="button" style="width:280px;" class="signIn btn btn-danger">登 录</button>
             </div>
         </div>
     </div>
-    <script src="~/Content/JS/jquery-3.1.1.min.js"></script>
-    <script src="~/Content/JS/jquery-ui.js"></script>
+</div>
+<script src="~/Content/JS/jquery-3.1.1.min.js"></script>
+<script src="~/Content/JS/jquery-ui.js"></script>
+<script src="~/Content/JS/bootstrap.min.js"></script>
+<script>
+    var sendMegBtn = $('.sendMegBtn');
+    //用户输入内容框
+    var chatMainSendInput = $('.chatMainSendInput');
+
+    //enter发送信息
+    $(document).keyup(function (e) {
+        if (e.keyCode == 13) {
+            SendMessage();
+        }
+    })
+
+    var common = {
+        //个位数补零
+        Appendzero: function (obj) {
+            if (obj < 10) return "0" + obj; else return obj;
+        },
+        //滚动条始终底部
+        scrollBottom: function (obj) {
+            obj.scrollTop(obj[0].scrollHeight);
+        },
+        userRender: function (username, message) {
+            //        当前时间
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var day = myDate.getDate();
+            var hour = myDate.getHours();
+            var minute = myDate.getMinutes();
+            var second = myDate.getSeconds();
+
+            //用户对话框
+            var userchat =
+                '<li class="chatMainContentLi chatMainContentLiRight">' +
+                '<img src="' + $.cookie("ServiceImg") + '"/>' +
+                '<div class="chatMainContentLiTime chatMainContentLiTimeRight">' +
+                '<ul><li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
+                '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
+                '<li><p>' + username + '</p></li></ul>' +
+                '<div class="chatMainContentLiLear chatMainContentLiRight">' +
+                '<span class="chatMainContentLiChat chatMainContentLiChatRight">' + message + '</span>' +
+                '<div class="triangle-up triangle-upRight"></div>' +
+                '</div></div>' +
+                '</li>';
+            $('.chatMainContentUl').append(userchat);
+            common.scrollBottom($('.chatMainContentUl'));
+        },
+        servRender: function (username, message) {
+            //        当前时间
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var day = myDate.getDate();
+            var hour = myDate.getHours();
+            var minute = myDate.getMinutes();
+            var second = myDate.getSeconds();
+            //用户对话框
+            var servchat =
+                '<li class="chatMainContentLi chatMainContentLiLeft">' +
+                '<img src="' + $.cookie("UserImg") + '"/>' +
+                '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
+                '<ul><li><p>' + username + '</p></li>' +
+                '<li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
+                '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li></ul>' +
+                '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
+                '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + message + '</span>' +
+                '<div class="triangle-up triangle-upLeft"></div>' +
+                '</div></div>' +
+                '</li>';
+            $('.chatMainContentUl').append(servchat);
+            common.scrollBottom($('.chatMainContentUl'));
+        }
+    }
+</script>
+
+@section scripts {
+    <!--Script references. -->
+    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+    <!--Reference the SignalR library. -->
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Content/JS/jquery.cookie.js"></script>
+    <!--SignalR script to update the chat page and send messages.-->
     <script>
-        var sendMegBtn = $('.sendMegBtn');
-        //用户输入内容框
-        var chatMainSendInput = $('.chatMainSendInput');
 
-        //enter发送信息
-        $(document).keyup(function (e) {
-            if (e.keyCode == 13) {
-                SendMessage();
-            }
-        })
-
-        var common = {
-            //个位数补零
-            Appendzero: function (obj) {
-                if (obj < 10) return "0" + obj; else return obj;
-            },
-            //滚动条始终底部
-            scrollBottom: function (obj) {
-                obj.scrollTop(obj[0].scrollHeight);
-            },
-            userRender: function (username, message) {
-                //        当前时间
-                var myDate = new Date();
-                var year = myDate.getFullYear();
-                var month = myDate.getMonth() + 1;
-                var day = myDate.getDate();
-                var hour = myDate.getHours();
-                var minute = myDate.getMinutes();
-                var second = myDate.getSeconds();
-
-                //用户对话框
-                var userchat =
-                    '<li class="chatMainContentLi chatMainContentLiRight">' +
-                    '<img src="/Content/Images/ls.png"/>' +
-                    '<div class="chatMainContentLiTime chatMainContentLiTimeRight">' +
-                    '<ul><li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
-                    '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
-                    '<li><p>' + username + '</p></li></ul>' +
-                    '<div class="chatMainContentLiLear chatMainContentLiRight">' +
-                    '<span class="chatMainContentLiChat chatMainContentLiChatRight">' + message + '</span>' +
-                    '<div class="triangle-up triangle-upRight"></div>' +
-                    '</div></div>' +
-                    '</li>';
-                $('.chatMainContentUl').append(userchat);
-                common.scrollBottom($('.chatMainContentUl'));
-            },
-            servRender: function (username, message) {
-                //        当前时间
-                var myDate = new Date();
-                var year = myDate.getFullYear();
-                var month = myDate.getMonth() + 1;
-                var day = myDate.getDate();
-                var hour = myDate.getHours();
-                var minute = myDate.getMinutes();
-                var second = myDate.getSeconds();
-                //用户对话框
-                var servchat =
-                    '<li class="chatMainContentLi chatMainContentLiLeft">' +
-                    '<img src="/Content/Images/jdw.png"/>' +
-                    '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
-                    '<ul><li><p>' + username + '</p></li>' +
-                    '<li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
-                    '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li></ul>' +
-                    '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
-                    '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + message + '</span>' +
-                    '<div class="triangle-up triangle-upLeft"></div>' +
-                    '</div></div>' +
-                    '</li>';
-                $('.chatMainContentUl').append(servchat);
-                common.scrollBottom($('.chatMainContentUl'));
-            }
+        //   登录验证
+        $('.signIn').click(function () {
+            var username = $('#userName').val();
+            var password = $('#passWord').val();
+            //        console.log(username +'---'+password)
+            $.ajax({
+                type: 'post',
+                url: '/service/loginapi',
+                dataType: 'json',
+                data: { username: username, password: password },
+                success: function (data) {
+                    if (data.Code == 0) {
+                        //                 console.log(data.Data.UserName)
+                        $('.btn').hide();
+                        $('.fade').css({ opacity: 0, display: 'none' });
+                        $('#chat').show();
+                        $.cookie("ServiceUserName", data.Data.UserName);
+                        $.cookie("ServiceUserId", data.Data.UserId);
+                        $.cookie("ServiceNickName", data.Data.NickName);
+                        $.cookie("ServiceImg", data.Data.Img);
+                        $("#UserImg").attr('src', data.Data.Img);
+                        $("#UserName").text(data.Data.UserName);
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            //客户链接signalr服务器，参数依次是客服id、客服用户名、客服头像
+                            //当登录状态链接失败时，后台会调用loginWarm
+                            chat.server.sConnect($.cookie("ServiceUserId"), $.cookie("ServiceUserName"), $.cookie("ServiceImg"));
+                            $('.sendMegBtn').click(SendMessage);//绑定发送信息函数
+                        });
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                }
+            });
+        });
+        // Reference the auto-generated proxy for the hub.
+        var chat = $.connection.chatHub;
+        // Create a function that the hub can call back to display messages.
+        chat.client.addNewMessageToPage = common.servRender;
+        chat.client.loginWarm = function () {
+            alert($.cookie("ServiceUserName") + "，您的登录状态已失效！请重新登录！");
+            //跳转到登录页面代码
+        };
+        chat.client.onUserDisconnected = function (username) {
+            //掉线提示
+            alert("警告！" + $.cookie("ServiceUserName") + "，您的账户已经在其他地方登录！");
+            location.reload();
+            //window.close();
+            //弹出登录窗口
+        };
+        chat.client.addNewClientTagToPage = function (userconnectionid, username, img) {
+            //这里需要注意：一个客服，同一时间段可以接受多个客户咨询，至于最多几个看客服的属性字段
+            //例如在消息框中间显示某些提示文字信息，如“客户***需要咨询，近期可能会联系你”
+            //UserConnectionId 为客户链接id， 需要保存在页面中，下次发送信息时带上此参数
+            //userName 客户名称，需要保存在页面中，下次发送信息时带上此参数
+            $('#userconnectionid').val(userconnectionid);
+            $('#username').val(username);
+            $.cookie("UserImg", img);
+        };
+        chat.client.loseUserWarm = function () {
+            //提示客服该用户已经掉线
+            alert("抱歉！客户***可能由于网络原因已经掉线！");
+            //$('#userconnectionid').val("")
+        };
+        function SendMessage() {
+            // Call the Send method on the hub.
+            chat.server.sSend($('#userconnectionid').val(), $.cookie("ServiceUserName"), $('.chatMainSendInput').val());
+            common.userRender($.cookie("ServiceUserName"), $('.chatMainSendInput').val());
+            $('.chatMainSendInput').val('').focus();
         }
     </script>
-
-    @section scripts {
-        <!--Script references. -->
-        <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-        <!--Reference the SignalR library. -->
-        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-        <!--Reference the autogenerated SignalR hub script. -->
-        <script src="~/signalr/hubs"></script>
-        <!--SignalR script to update the chat page and send messages.-->
-        <script>
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.chatHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = common.servRender;
-            chat.client.loginWarm = function () {
-                alert("登录状态已失效！请重新登录！");
-                //跳转到登录页面代码
-            };
-            chat.client.onUserDisconnected = function (username) {
-                //掉线提示
-                alert("警告！您的账户已经在其他地方登录！");
-                //弹出登录窗口
-            };
-            chat.client.addNewClientTagToPage = function (userconnectionid, username, img) {
-                //例如在消息框中间显示某些提示文字信息，如“客户***需要咨询，近期可能会联系你”
-                //UserConnectionId 为客户链接id， 需要保存在页面中，下次发送信息时带上此参数
-                //userName 客户名称，需要保存在页面中，下次发送信息时带上此参数
-                $('#userconnectionid').val(userconnectionid);
-                $('#username').val(username);
-            };
-            chat.client.loseUserWarm = function () {
-                //提示客服该用户已经掉线
-                alert("抱歉！客户***可能由于网络原因已经掉线！");
-            };
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                //客户链接signalr服务器，参数依次是客服id、客服用户名、客服头像
-                //当登录状态链接失败时，后台会调用loginWarm
-                chat.server.sConnect("1", "admin", "http://192.168.1.159/Content/Images/ls.png");
-                $('.sendMegBtn').click(SendMessage);//绑定发送信息函数
-            });
-            function SendMessage() {
-                // Call the Send method on the hub.
-                chat.server.sSend($('#userconnectionid').val(), "admin", $('.chatMainSendInput').val());
-                common.userRender("admin", $('.chatMainSendInput').val());
-                $('.chatMainSendInput').val('').focus();
-            }
-        </script>
-    }
-</body>
-</html>
+}

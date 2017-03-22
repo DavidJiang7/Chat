@@ -212,6 +212,7 @@ namespace Chat
                         foreach (var item in items)
                         {
                             Clients.Client(item.FromConnectionId).onUserDisconnected(item.UserName);
+                            Clients.Client(item.FromConnectionId).onDisconnected(true);
                         }
                         ConnectedServices.RemoveAll(it => it.UserId == userID);
                     }

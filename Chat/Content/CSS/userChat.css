@@ -5,6 +5,12 @@
 li{
     list-style: none;
 }
+/*body{
+    margin-left:auto;
+    margin-right:auto;
+    margin-TOP:100PX;
+    width:100%;
+}*/
 #chat{
     width:500px;
     height:507px;
@@ -14,6 +20,12 @@ li{
     margin: 180px auto;
     color:#fff;
     font-family: '微软雅黑';
+    /*display: none;*/
+    z-index: 99999;
+}
+.input-group{
+    width:70%;
+    margin: 0 auto;
 }
 .operation{
     width:100%;
@@ -163,6 +175,7 @@ li{
     outline: none;
     border:none;
     resize: none;
+    color:#000;
     padding-left: 3px;
     padding-top: 3px;
 }
