@@ -7,7 +7,7 @@
 </div>
 <div id="chat" class="ui-widget-content">
     <div class="operation">
-        <p class="titleImg"><img id="UserImg" src="~/Content/Images/ls.png"><i id="UserName">admin</i></p>
+        <p class="titleImg"><img id="UserImg" src=""><i id="UserName"></i></p>
     </div>
     <div class="chatMain">
         <ul class="chatMainContentUl"></ul>
@@ -40,6 +40,17 @@
             <div class="input-group">
                 <button type="button" style="width:280px;" class="signIn btn btn-danger">登 录</button>
             </div>
+        </div>
+    </div>
+</div>
+<div id="refresh">
+    <div class="refresh">
+        <div class="refreshContent">
+            <p>页面刷新完成后，将会重新加载数据，是否刷新？</p>
+            <button class="refreshBtn sure" onclick="sureRender()" style="margin-right: 50px;">
+                确定
+            </button>
+            <button class="refreshBtn nosure" onclick="nosureRender()">取消</button>
         </div>
     </div>
 </div>
@@ -119,6 +130,32 @@
             common.scrollBottom($('.chatMainContentUl'));
         }
     }
+    function addNewClientTagToPage(UserConnectionId, userName, img) {
+        var div = '<div class="protMessage">用户已上线</div>';
+        $('body').append(div);
+        //setCookie(UserConnectionId, userName, img);
+    }
+    //  F5刷新
+    $(document).keydown(function (e) {
+        if (e.keyCode == 116) {
+            if (e && e.preventDefault) {
+                //非IE
+                e.preventDefault();
+            } else {
+                //IE
+                window.event.returnValue = false;
+            }
+            $('#refresh').show();
+        }
+    })
+    //  刷新确定函数
+    function nosureRender() {
+        $('#refresh').hide();
+    }
+    //  刷新取消函数
+    function sureRender() {
+        location.reload();
+    }
 </script>
 
 @section scripts {
@@ -158,7 +195,7 @@
                         $.connection.hub.start().done(function () {
                             //客户链接signalr服务器，参数依次是客服id、客服用户名、客服头像
                             //当登录状态链接失败时，后台会调用loginWarm
-                            chat.server.sConnect($.cookie("ServiceUserId"), $.cookie("ServiceUserName"), $.cookie("ServiceImg"));
+                            chat.server.sConnect(data.Data.UserId, data.Data.UserName, data.Data.Img, data.Data.ServiceMax);
                             $('.sendMegBtn').click(SendMessage);//绑定发送信息函数
                         });
                     }
@@ -168,6 +205,16 @@
                 }
             });
         });
+        function loseService() {
+            $.cookie('ServiceUserName', null);
+            $.cookie("ServiceUserId", null);
+            $.cookie("ServiceNickName", null);
+            $.cookie("ServiceImg", null);
+            $.cookie("UserConnectionid", null);
+            $.cookie("UserUsername", null);
+            $.cookie("UserImg", null);
+            $('#refresh').show();//刷新提示
+        }
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
         // Create a function that the hub can call back to display messages.
@@ -179,6 +226,7 @@
         chat.client.onUserDisconnected = function (username) {
             //掉线提示
             alert("警告！" + $.cookie("ServiceUserName") + "，您的账户已经在其他地方登录！");
+            loseService();
             location.reload();
             //window.close();
             //弹出登录窗口
@@ -194,8 +242,9 @@
         };
         chat.client.loseUserWarm = function () {
             //提示客服该用户已经掉线
-            alert("抱歉！客户***可能由于网络原因已经掉线！");
+            alert("抱歉！客户 " + $('#username').val() + " 可能由于网络原因已经掉线！");
             //$('#userconnectionid').val("")
+            loseService();
         };
         function SendMessage() {
             // Call the Send method on the hub.

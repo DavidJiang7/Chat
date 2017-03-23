@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Base_Admins">
           <Key>
             <PropertyRef Name="id" />
@@ -14,6 +14,7 @@
           <Property Name="A_Loginpwd" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="A_RealName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="A_Icon" Type="nvarchar" MaxLength="500" />
+          <Property Name="A_ServiceMax" Type="int" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -54,8 +55,7 @@
           <EntitySet Name="MessageType" EntityType="Self.MessageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Account" EntityType="Self.User_Account" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -68,6 +68,7 @@
           <Property Name="A_Loginpwd" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="A_RealName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="A_Icon" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="A_ServiceMax" Type="Int32" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -117,6 +118,7 @@
           <EntitySetMapping Name="Base_Admins">
             <EntityTypeMapping TypeName="ChatModel.Base_Admins">
               <MappingFragment StoreEntitySet="Base_Admins">
+                <ScalarProperty Name="A_ServiceMax" ColumnName="A_ServiceMax" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="A_UserName" ColumnName="A_UserName" />
                 <ScalarProperty Name="A_Loginpwd" ColumnName="A_Loginpwd" />

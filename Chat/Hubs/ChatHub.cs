@@ -77,10 +77,10 @@ namespace Chat
                 Clients.Caller.loginWarm();
                 return;
             }
-            string id = Context.ConnectionId;//同一id表示同一链接状态，可以理解为sessionid，但两者不是一个东西
+            //Context.ConnectionId 同一id表示同一链接状态，可以理解为sessionid，但两者不是一个东西
             lock (ConnectedUsers)
             {
-                int index = ConnectedUsers.FindIndex(it => it.FromConnectionId == id);
+                int index = ConnectedUsers.FindIndex(it => it.FromConnectionId == Context.ConnectionId);
                 if (index < 0)
                 //if (ConnectedUsers.Count(it => it.ConnectionId == id) == 0)
                 {
@@ -95,16 +95,22 @@ namespace Chat
                         }
                         ConnectedUsers.RemoveAll(it => it.UserId == userID);
                     }
-                    Models.User service = UGetRandService();
-                    string toConnectionId = service == null ? "" : service.FromConnectionId;
-                    //添加在线人员，并分配服务人员 
-                    ConnectedUsers.Add(new Models.User { FromConnectionId = id, ToConnectionId = toConnectionId, UserId = userID, UserName = userName, Img = "" });
-                    //反馈登录成功信息给用户，并说明已为其分配的客服人员信息
-                    Clients.Caller.onConnected(service.FromConnectionId, service.UserName, service.Img);
-                    //提醒客服有新的客户需要咨询
-                    Clients.Client(service.FromConnectionId).addNewClientTagToPage(id, userName, img);
-                    ////通知其他所有用户，有新用户链接进来
-                    //Clients.AllExcept(id).onNewUserConnected(id, userID, userName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    Models.Service service = UGetRandService();
+                    if (service == null)
+                    {
+                        Clients.Caller.busy();//未分配到客服，提醒客户，客服正忙
+                    }
+                    else
+                    {
+                        //添加在线人员，并分配服务人员 
+                        ConnectedUsers.Add(new Models.User { FromConnectionId = Context.ConnectionId, ToConnectionId = service.FromConnectionId, UserId = userID, UserName = userName, Img = img });
+                        //反馈登录成功信息给用户，并说明已为其分配的客服人员信息
+                        Clients.Caller.onConnected(service.FromConnectionId, service.UserName, service.Img);
+                        //提醒客服有新的客户需要咨询
+                        Clients.Client(service.FromConnectionId).addNewClientTagToPage(Context.ConnectionId, userName, img);
+                        ////通知其他所有用户，有新用户链接进来
+                        //Clients.AllExcept(id).onNewUserConnected(id, userID, userName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    }
                 }
                 else
                 {
@@ -119,14 +125,36 @@ namespace Chat
         /// </summary>
         /// <param name="FromUserName">客户用户名</param>
         /// <returns>返回一位已登录的客户信息</returns>
-        public Models.User UGetRandService()
+        public Models.Service UGetRandService()
         {
-            if (ConnectedServices != null && ConnectedServices.Count > 0)
+            try
             {
-                Models.User u = ConnectedServices[Utils.Rand.Int(0, ConnectedServices.Count)];
-                return u;
+                lock (ConnectedServices)
+                {
+                    if (ConnectedServices != null && ConnectedServices.Count > 0)
+                    {
+                        Models.Service result = ConnectedServices.Where(it => it.ServiceMax > it.ServiceNow).OrderBy(it => it.ServiceNow).FirstOrDefault();
+                        if (result != null)
+                        {
+                            //int index = ConnectedServices.FindIndex(it => it.FromConnectionId == result.FromConnectionId);
+                            //if (index >= 0)
+                            //{
+                            //    ConnectedServices[index].ServiceNow += 1;
+                            //    result.ServiceNow += 1;
+                            //    return result;
+                            //}
+                            result.ServiceNow += 1;
+                            return result;
+                        }
+                    }
+                    return null;
+                }
             }
-            return null;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
         #endregion
 
@@ -135,7 +163,7 @@ namespace Chat
         /// <summary>
         /// 客服登录用户池
         /// </summary>
-        private static List<Models.User> ConnectedServices = new List<Models.User>();
+        private static List<Models.Service> ConnectedServices = new List<Models.Service>();
 
         /// <summary>
         /// user -> service 发送消息方法
@@ -189,7 +217,8 @@ namespace Chat
         /// <param name="userID">用户id</param>
         /// <param name="userName">用户名</param>
         /// <param name="img">头像</param>
-        public void SConnect(int userID, string userName, string img)
+        /// <param name="serviceMax">同时服务最多客户人数</param>
+        public void SConnect(int userID, string userName, string img, int serviceMax)
         {
             if (userID <= 0 || userName == "")
             {
@@ -217,7 +246,7 @@ namespace Chat
                         ConnectedServices.RemoveAll(it => it.UserId == userID);
                     }
                     //添加在线人员，并分配服务人员 
-                    ConnectedServices.Add(new Models.User { FromConnectionId = id, UserId = userID, UserName = userName, Img = img });
+                    ConnectedServices.Add(new Models.Service { FromConnectionId = id, UserId = userID, UserName = userName, Img = img, ServiceMax = serviceMax });
                 }
                 else
                 {
@@ -250,25 +279,41 @@ namespace Chat
         /// <returns></returns>
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
-            lock (ConnectedUsers)
+            try
             {
-                var item = ConnectedUsers.FirstOrDefault(it => it.FromConnectionId == Context.ConnectionId);
-                if (item != null)
+                lock (ConnectedUsers)
                 {
-                    //发送用户离线通知到客户端
-                    Clients.Client(item.FromConnectionId).onUserDisconnected(item.UserName);
-                    ConnectedUsers.Remove(item);
+                    var item = ConnectedUsers.FirstOrDefault(it => it.FromConnectionId == Context.ConnectionId);
+                    if (item != null)
+                    {
+                        //发送用户离线通知到客户端
+                        Clients.Client(item.FromConnectionId).onUserDisconnected(item.UserName);
+                        ConnectedUsers.Remove(item);
+                        //客服同时服务人数更新
+                        lock (ConnectedServices)
+                        {
+                            var res = ConnectedServices.FindIndex(it => it.FromConnectionId == item.ToConnectionId);
+                            if (res >= 0)
+                            {
+                                ConnectedServices[res].ServiceNow = ConnectedServices[res].ServiceNow - 1 >= 0 ? ConnectedServices[res].ServiceNow - 1 : 0;
+                            }
+                        }
+                    }
+                }
+                lock (ConnectedServices)
+                {
+                    var item = ConnectedServices.FirstOrDefault(it => it.FromConnectionId == Context.ConnectionId);
+                    if (item != null)
+                    {
+                        //发送用户离线通知到客户端
+                        Clients.Client(item.FromConnectionId).onUserDisconnected(item.UserName);
+                        ConnectedServices.Remove(item);
+                    }
                 }
             }
-            lock (ConnectedServices)
+            catch (Exception ex)
             {
-                var item = ConnectedServices.FirstOrDefault(it => it.FromConnectionId == Context.ConnectionId);
-                if (item != null)
-                {
-                    //发送用户离线通知到客户端
-                    Clients.Client(item.FromConnectionId).onUserDisconnected(item.UserName);
-                    ConnectedServices.Remove(item);
-                }
+                Console.WriteLine(ex.Message);
             }
             return base.OnDisconnected(stopCalled);
         }

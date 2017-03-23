@@ -19,5 +19,6 @@ namespace Chat
         public string A_Loginpwd { get; set; }
         public string A_RealName { get; set; }
         public string A_Icon { get; set; }
+        public Nullable<int> A_ServiceMax { get; set; }
     }
 }

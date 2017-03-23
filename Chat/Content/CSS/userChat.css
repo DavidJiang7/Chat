@@ -17,7 +17,9 @@ li{
     border:solid 1px #ccc;
     border-radius: 4px;
     background: #fff;
-    margin: 180px auto;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:180px;
     color:#fff;
     font-family: '微软雅黑';
     /*display: none;*/
@@ -178,4 +180,51 @@ li{
     color:#000;
     padding-left: 3px;
     padding-top: 3px;
+}
+
+#refresh{
+    width: 100%;
+    height:100%;
+    background: rgba(0,0,0,0.2);
+    position: absolute;
+    top:51px;
+    left:0px;
+    font-family: 微软雅黑;
+    display: none;
+}
+.refresh{
+    width:300px;
+    height:170px;
+    background: #fff;
+    border:solid 1px #eee;
+    margin:200px auto;
+    border-radius: 10px;
+}
+.refreshContent{
+    width:200px;
+    height:130px;
+    text-align: center;
+    margin:40px auto 0;
+}
+.refreshContent p{
+    margin-bottom: 40px;
+}
+.refreshBtn{
+    width:50px;
+    height:25px;
+    background: rgba(217,83,79,1);
+    border-radius: 4px;
+    line-height: 25px;
+    color:#fff;
+    border:none;
+    outline: none;
+}
+.protMessage{
+    width:160px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background: #ccc;
+    border-radius: 4px;
+    font-family: 微软雅黑;
 }

@@ -50,7 +50,7 @@ namespace Chat.Controllers
                     Session["ServiceUserName"] = res.A_UserName;
                     ret.Code = 0;
                     ret.Message = "";
-                    ret.Data = new { UserName = res.A_UserName, UserId = res.id, NickName = res.A_RealName, Img = res.A_Icon };
+                    ret.Data = new { UserName = res.A_UserName, UserId = res.id, NickName = res.A_RealName, Img = res.A_Icon, ServiceMax = res.A_ServiceMax };
                 }
                 return Json(ret);
             }

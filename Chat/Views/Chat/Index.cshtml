@@ -39,6 +39,17 @@
         </div>
     </div>
 </div>
+<div id="refresh">
+    <div class="refresh">
+        <div class="refreshContent">
+            <p>页面刷新完成后，将会重新分配客服，是否刷新？</p>
+            <button class="refreshBtn sure" onclick="sureRender()" style="margin-right: 50px;">
+                确定
+            </button>
+            <button class="refreshBtn nosure" onclick="nosureRender()">取消</button>
+        </div>
+    </div>
+</div>
 <script src="~/Content/JS/jquery-3.1.1.min.js"></script>
 <script src="~/Content/JS/jquery-ui.js"></script>
 <script src="~/Content/JS/bootstrap.min.js"></script>
@@ -116,6 +127,46 @@
             common.scrollBottom($('.chatMainContentUl'));
         }
     }
+    //function Connected(userName) {
+    //    var div = '<div class="protMessage">已为您分配客服：'+userName+'</div>';
+    //    $('body').append(div);
+    //}
+    //function loseUserWarm() {
+    //    var div = '<div class="protMessage">网络繁忙，用户已下线</div>';
+    //    $('body').append(div);
+    //}
+    //function UserDisconnected(username) {
+    //    var div = '<div class="protMessage">网络繁忙，用户已下线</div>';
+    //    $('body').append(div);
+    //    $.cookie('username', username);
+    //}
+    function addNewClientTagToPage(UserConnectionId, userName, img) {
+        var div = '<div class="protMessage">用户已上线</div>';
+        $('body').append(div);
+        //setCookie(UserConnectionId, userName, img);
+    }
+    //  F5刷新
+    $(document).keydown(function (e) {
+        if (e.keyCode == 116) {
+            if (e && e.preventDefault) {
+                //非IE
+                e.preventDefault();
+            } else {
+                //IE
+                window.event.returnValue = false;
+            }
+            $('#refresh').show();
+        }
+    })
+    //  刷新确定函数
+    function nosureRender() {
+        $('#refresh').hide();
+    }
+    //  刷新取消函数
+    function sureRender() {
+        location.reload();
+    }
+
 </script>
 
 
@@ -169,10 +220,23 @@
                 }
             });
         });
+        function loseService() {
+            $.cookie('UserUserName', null);
+            $.cookie("UserUserId", null);
+            $.cookie("UserNickName", null);
+            $.cookie("UserImg", null);
+            $.cookie("ServiceConnectionid", null);
+            $.cookie("ServiceUsername", null);
+            $.cookie("ServiceImg", null);
+            $('#refresh').show();//刷新提示
+        }
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = common.servRender;
+        chat.client.busy = function () {
+            alert("抱歉！客服正处于忙碌状态！请稍后刷新重试！");
+        };
         chat.client.loginWarm = function () {
             alert($.cookie("UserUserName") + "，您的登录状态已失效！请重新登录！");
             //window.close();
@@ -180,11 +244,9 @@
         };
         chat.client.onUserDisconnected = function (username) {
             //掉线提示
-            alert("警告！" + $.cookie("UserUserName") + "，您的账户已经在其他地方登录！");
-            location.reload();
-            //window.close();
-            //弹出登录窗口
-            $('#chat').show();
+            var div = '<div class="protMessage">警告！' + $.cookie("UserUserName") + '，您的账户已经在其他地方登录！</div>';
+            $('body').append(div);
+            loseService();
         };
         chat.client.onConnected = function (serviceconnectionid, username, img) {
             //例如在消息框中间显示某些提示文字信息，如“已为您分配***客服，可以开始咨询了”
@@ -193,7 +255,8 @@
             //img 客服头像
             //$('#serviceconnectionid').val(serviceconnectionid);
             //$('#username').val(username);
-            alert("已为您分配客服人员：" + username);
+            var div = '<div class="protMessage">已为您分配客服：' + username + '</div>';
+            $('body').append(div);
             $.cookie("ServiceConnectionid", serviceconnectionid);
             $.cookie("ServiceUsername", username);
             $.cookie("ServiceImg", img);
@@ -201,8 +264,9 @@
         };
         chat.client.loseServiceWarm = function () {
             //提示用户客服已经掉线，刷新页面，重新链接
-            alert("抱歉！为您分配的客服 " + $.cookie("ServiceUserName") + " 可能由于网络原因已经掉线！");
-            //刷新页面
+            var div = '<div class="protMessage">抱歉！为您分配的客服 ' + $.cookie("ServiceUserName") + ' 可能由于网络原因已经掉线，请刷新重试！</div>';
+            $('body').append(div);
+            loseService();
         };
         function SendMessage() {
             // Call the Send method on the hub.
