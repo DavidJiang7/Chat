@@ -64,10 +64,10 @@ namespace Chat.Controllers
         /// 客服获取最近 dayOffset 天数内的聊天记录
         /// </summary>
         /// <param name="messSize">获取每位客户最新messSize条记录，参数非必需，默认20条，最大50条</param>
-        /// <param name="dayOffset">最近多少天内，参数非必需，默认7天内，最大30天内</param>
+        /// <param name="dayOffset">最近多少天内，参数非必需，默认3天内，最大30天内</param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetCurrentMess(int dayOffset = 7, int messSize = 20)
+        public JsonResult GetCurrentMess(int dayOffset = 3, int messSize = 20)
         {
             //HttpContext.Response.AddHeader("Access-Control-Allow-Origin", "*");//跨源请求
             try

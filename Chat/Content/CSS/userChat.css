@@ -5,25 +5,69 @@
 li{
     list-style: none;
 }
-/*body{
-    margin-left:auto;
-    margin-right:auto;
-    margin-TOP:100PX;
-    width:100%;
-}*/
+.newcolor {
+    background:rgba(255, 255, 255, 0.50);
+}
+.addnewColor {
+     background:#3cb371;
+}
+#CustomerService{
+    width:640px;
+    height:507px;
+    margin:180px auto;
+    color:#fff;
+    font-family: '微软雅黑';
+}
+.chatgroup{
+    width:140px;
+    height:507px;
+    background:rgba(186, 202, 198,1);
+    float: left;
+    border-radius: 2px;
+}
+.chatgroupUl{
+    width: 130px;
+    height:507px;
+    margin:0 auto;
+}
+.chatgroupLi{
+    width:130px;
+    height:40px;
+    margin: 8px 0;
+    padding-left:3px;
+    border-radius:4px;
+    cursor: pointer;
+}
+.chatgroupLi img{
+    width:35px;
+    height:35px;
+    border-radius: 50%;
+}
+.chatgroupLi span{
+    font-size: 12px;
+    font-family: Arial;
+    line-height: 40px;
+    padding-left:10px;
+}
+.chatgroupLi label{
+    width:15px;
+    height:15px;
+    border-radius: 50%;
+    line-height: 15px;
+    text-align: center;
+    margin-left: 23px;
+}
+.chatgroupLi:hover{background: rgba(255,255,255,0.2)}
+.chatgroupLi label:hover{background: rgba(0,0,0,0.3)}
 #chat{
     width:500px;
     height:507px;
     border:solid 1px #ccc;
     border-radius: 4px;
     background: #fff;
-    margin-left:auto;
-    margin-right:auto;
-    margin-top:180px;
-    color:#fff;
-    font-family: '微软雅黑';
     /*display: none;*/
     z-index: 99999;
+    float: left;
 }
 .input-group{
     width:70%;
@@ -58,7 +102,7 @@ li{
 }
 .chatMainContentUl{
     width:100%;
-    height:300px;
+    height:302px;
     background: #fff;
     overflow-y: auto;
     font-family: 微软雅黑;
@@ -164,7 +208,7 @@ li{
     border:none;
     border-radius: 2px;
     position: absolute;
-    right:5px;
+    right:4px;
     bottom: 3px;
     font-family: 微软雅黑;
     font-size: 14px;
@@ -181,14 +225,13 @@ li{
     padding-left: 3px;
     padding-top: 3px;
 }
-
 #refresh{
     width: 100%;
     height:100%;
     background: rgba(0,0,0,0.2);
     position: absolute;
-    top:51px;
-    left:0px;
+    top:0;
+    left:0;
     font-family: 微软雅黑;
     display: none;
 }
@@ -220,11 +263,11 @@ li{
     outline: none;
 }
 .protMessage{
-    width:160px;
+    width:190px;
     height: 20px;
-    line-height: 20px;
-    text-align: center;
-    background: #ccc;
-    border-radius: 4px;
-    font-family: 微软雅黑;
+    color:#fff;
+    text-align:center;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.3);
+    margin:10px auto;
 }

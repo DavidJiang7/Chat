@@ -2,16 +2,26 @@
 <link rel="stylesheet" href="~/Content/CSS/iconfont.css" />
 @*<link rel="stylesheet" href="~/Content/bootstrap.min.css" />*@
 
-<div id="chat" class="ui-widget-content">
-    <div class="operation">
-        <p class="titleImg"><img id="UserImg" src=""><i id="UserName"></i></p>
+<div id="CustomerService">
+    <div class="chatgroup">
+        <ul class="chatgroupUl">
+            <!--  <li class="chatgroupLi">
+                  <img src="images/11.jpg"/>
+                  <span>老冯啊</span>
+              </li>-->
+        </ul>
     </div>
-    <div class="chatMain">
-        <ul class="chatMainContentUl"></ul>
-        <div class="chatMainSendContent">
-            <i class="icon"></i>
-            <textarea class="chatMainSendInput"></textarea>
-            <button class="sendMegBtn">发送</button>
+    <div id="chat" class="ui-widget-content">
+        <div class="operation">
+            <p class="titleImg"><img id="UserImg" src="" /><i id="UserName"></i></p>
+        </div>
+        <div class="chatMain">
+            <ul class="chatMainContentUl"></ul>
+            <div class="chatMainSendContent">
+                <i class="icon"></i>
+                <textarea class="chatMainSendInput"></textarea>
+                <button class="sendMegBtn">发送</button>
+            </div>
         </div>
     </div>
 </div>
@@ -75,7 +85,39 @@
         scrollBottom: function (obj) {
             obj.scrollTop(obj[0].scrollHeight);
         },
-        userRender: function (username, message) {
+        UnixToDate: function (unixTime, isFull, timeZone) {
+            if (typeof (timeZone) == 'number') {
+                unixTime = parseInt(unixTime) + parseInt(timeZone) * 60 * 60;
+            }
+            var time = new Date(unixTime * 1000);
+            var ymdhis = "";
+            ymdhis += time.getUTCFullYear() + "-";
+            ymdhis += (time.getUTCMonth() + 1) + "-";
+            ymdhis += time.getUTCDate() + "&nbsp;&nbsp;";
+            if (isFull == true) {
+                ymdhis += time.getUTCHours() + ":";
+                ymdhis += time.getUTCMinutes() + ":";
+                ymdhis += time.getUTCSeconds();
+            }
+            return ymdhis;
+        },
+        userRender: function (username, headimg, date, message) {
+            //用户对话框
+            var userchat =
+                '<li class="chatMainContentLi chatMainContentLiRight">' +
+                '<img src="' + headimg + '"/>' +
+                '<div class="chatMainContentLiTime chatMainContentLiTimeRight">' +
+                '<ul><li><p>' + username + '</p></li>' +
+                '<li><p>' + date + '</p></li>' +
+                '</ul>' +
+                '<div class="chatMainContentLiLear chatMainContentLiRight">' +
+                '<span class="chatMainContentLiChat chatMainContentLiChatRight">' + message + '</span>' +
+                '<div class="triangle-up triangle-upRight"></div>' +
+                '</div></div>' +
+                '</li>';
+            $('.chatMainContentUl').append(userchat);
+        },
+        userRender2: function (username, headimg) {
             //        当前时间
             var myDate = new Date();
             var year = myDate.getFullYear();
@@ -86,22 +128,41 @@
             var second = myDate.getSeconds();
 
             //用户对话框
-            var userchat =
+            var userchat2 =
                 '<li class="chatMainContentLi chatMainContentLiRight">' +
-                '<img src="' + ServiceImg + '"/>' +
+                '<img src="' + headimg + '"/>' +
                 '<div class="chatMainContentLiTime chatMainContentLiTimeRight">' +
-                '<ul><li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
-                '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
+                '<ul><li><p>' + year + '-' + common.Appendzero(month) + '-' + common.Appendzero(day) + '&nbsp;&nbsp;' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
                 '<li><p>' + username + '</p></li></ul>' +
                 '<div class="chatMainContentLiLear chatMainContentLiRight">' +
-                '<span class="chatMainContentLiChat chatMainContentLiChatRight">' + message + '</span>' +
+                '<span class="chatMainContentLiChat chatMainContentLiChatRight">' + chatMainSendInput.val() + '</span>' +
                 '<div class="triangle-up triangle-upRight"></div>' +
                 '</div></div>' +
                 '</li>';
-            $('.chatMainContentUl').append(userchat);
-            common.scrollBottom($('.chatMainContentUl'));
+            $('.chatMainContentUl').append(userchat2);
+            //            清空消息
+            chatMainSendInput.val("");
+            //调用函数添加最新消息到数组
+            var newMess = { MESS_Id: 0, MESS_UserId: UserUserId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: new Date(), MESS_Content: chatMainSendInput.val(), MESS_Author: 2 };
+            unshiftMess(newMess);
         },
-        servRender: function (username, message) {
+        servRender: function (username, headimg, date, reaultFinaly) {
+            //用户对话框
+            var servchat =
+                '<li class="chatMainContentLi chatMainContentLiLeft">' +
+                '<img class="headimg" src="' + headimg + '"/>' +
+                '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
+                '<ul><li><p class="name">' + username + '</p></li>' +
+                '<li><p>' + date + '</p></li>' +
+                '</ul>' +
+                '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
+                '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + reaultFinaly + '</span>' +
+                '<div class="triangle-up triangle-upLeft"></div>' +
+                '</div></div>' +
+                '</li>';
+            $('.chatMainContentUl').append(servchat);
+        },
+        servRender2: function (username, message) {
             //        当前时间
             var myDate = new Date();
             var year = myDate.getFullYear();
@@ -111,20 +172,32 @@
             var minute = myDate.getMinutes();
             var second = myDate.getSeconds();
             //用户对话框
-            var servchat =
+            var servchat2 =
                 '<li class="chatMainContentLi chatMainContentLiLeft">' +
                 '<img src="' + UserImg + '"/>' +
                 '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
                 '<ul><li><p>' + username + '</p></li>' +
-                '<li><p>' + year + '/' + common.Appendzero(month) + '/' + common.Appendzero(day) + '</p></li>' +
-                '<li><p>' + common.Appendzero(hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li></ul>' +
+                '<li><p>' + year + '-' + common.Appendzero(month) + '-' + common.Appendzero(day) + '&nbsp;&nbsp;' + common.Appendzero
+                (hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
+                '</ul>' +
                 '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
                 '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + message + '</span>' +
                 '<div class="triangle-up triangle-upLeft"></div>' +
                 '</div></div>' +
                 '</li>';
-            $('.chatMainContentUl').append(servchat);
-            common.scrollBottom($('.chatMainContentUl'));
+            $('.chatMainContentUl').append(servchat2);
+
+            //            清空消息
+            //chatMainSendInput.val("");
+            //调用函数添加最新消息到数组
+            var newMess = { MESS_Id: 0, MESS_UserId: UserUserId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: new Date(), MESS_Content: message, MESS_Author: 1 };
+            unshiftMess(newMess);
+        },
+        unshiftMess: function (messObj) {
+            if (RowIndex >= 0)
+            {
+                MessArr[RowIndex].unshift(messObj);
+            }
         }
     }
     function addNewClientTagToPage(userConnectionId, userName, img) {
@@ -170,6 +243,8 @@
         var UserImg = "";
         var UserConnectionId = "";
         var UserUserName = "";
+        var UserUserId = 0;
+        var RowIndex = -1;
         //   登录验证
         $('.signIn').click(function () {
             var username = $('#userName').val();
@@ -198,6 +273,7 @@
                             //当登录状态链接失败时，后台会调用loginWarm
                             chat.server.sConnect(data.Data.UserId, data.Data.UserName, data.Data.Img, data.Data.ServiceMax);
                             $('.sendMegBtn').click(SendMessage);//绑定发送信息函数
+                            GetCurrentMess();
                         });
                     }
                     else {
@@ -206,6 +282,79 @@
                 }
             });
         });
+        var UserIdArr = [];
+        var MessArr = [];
+        function GetCurrentMess() {
+            $.ajax({
+                type: 'get',
+                url: '/service/GetCurrentMess',
+                dataType: 'json',
+                //data: { UserId: 1 },
+                success: function (data) {
+                    $.each(data.Data, function (i) {
+                        var Li = '<li class="chatgroupLi" userId="' + data.Data[i].UserId + '" rowindex="' + i + '">' +
+                            '<img class="headimg" src="' + data.Data[i].Img + '"/>' +
+                            '<span class="name">' + data.Data[i].UserName + '</span>' +
+                            '</li>';
+                        $('.chatgroupUl').append(Li);
+
+                        var UserId = data.Data[i].UserId;
+                        UserIdArr.push(UserId);
+                        var mess = data.Data[i].Mess;
+                        MessArr.push(mess);
+                    })
+                    $('.chatgroupLi').css({ filter: 'grayscale(1)' });//默认掉线
+                    $('.chatgroupLi').click(function () {
+
+                        $('.chatMainContentUl').text("");                        
+                        $(this).removeClass("addnewColor");
+                        $(this).addClass('newcolor');
+                        $(this).siblings().removeClass('newcolor')
+                        $(this).find('span').css({ color: '#000' });
+                        $(this).siblings().find('span').css({ color: '#fff' });
+                        UserUserId = $(this).attr('userId');
+                        RowIndex = $(this).attr('rowindex');
+                        UserUserName = $(this).find('.name').text();
+                        UserImg = $(this).find('.headimg').attr('src');
+                        var messAutor = [];
+                        var messTime = '';
+                        var reault = [];
+                        var newIndex = [];
+
+                        for (var j = 0; j < MessArr[RowIndex].length; j++) {
+                            if (j == 0) {
+                                messTime = (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
+                            } else {
+                                messTime += '-' + (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
+                            }
+                            reault.push(MessArr[RowIndex][j].MESS_Content);
+                            messAutor.push(MessArr[RowIndex][j].MESS_Author);
+
+                        }
+
+                        var dateArr = new Array();
+
+                        dateArr = messTime.split('-').sort(sortNumber);
+
+                        for (var m = 0; m < reault.length; m++) {
+                            var reaultFinaly = reault[m];
+                            date = common.UnixToDate((dateArr[m]), true);
+                            if (messAutor[m] == 2) {
+
+                                common.userRender(ServiceUserName, ServiceImg, date, reaultFinaly);
+                            } else if (messAutor[m] == 1) {
+                                common.servRender(UserUserName, UserImg, date, reaultFinaly);
+                            }
+                        }
+                        function sortNumber(a, b) {
+                            return a - b
+                        }
+                        common.scrollBottom($('.chatMainContentUl'));
+                    })
+
+                }
+            })
+        }
         function loseService() {
             ServiceUserName = "";
             ServiceUserId = 0;
@@ -214,12 +363,14 @@
             UserImg = "";
             UserConnectionId = "";
             UserUserName = "";
+            UserUserId = 0;
+            RowIndex = -1;
             //$('#refresh').show();//刷新提示
         }
         // Reference the auto-generated proxy for the hub.
         var chat = $.connection.chatHub;
         // Create a function that the hub can call back to display messages.
-        chat.client.addNewMessageToPage = common.servRender;
+        chat.client.addNewMessageToPage = common.servRender2;
         chat.client.loginWarm = function () {
             alert(ServiceUserName + "，您的登录状态已失效！请重新登录！");
             //跳转到登录页面代码
@@ -232,27 +383,50 @@
             //window.close();
             //弹出登录窗口
         };
-        chat.client.addNewClientTagToPage = function (userconnectionid, username, img) {
+        chat.client.addNewClientTagToPage = function (userconnectionid,userId, username, img) {
             //这里需要注意：一个客服，同一时间段可以接受多个客户咨询，至于最多几个看客服的属性字段
             //例如在消息框中间显示某些提示文字信息，如“客户***需要咨询，近期可能会联系你”
             //UserConnectionId 为客户链接id， 需要保存在页面中，下次发送信息时带上此参数
             //userName 客户名称，需要保存在页面中，下次发送信息时带上此参数
             alert("客户" + username + " 已经接入，近期会咨询您！");
-            UserConnectionId = userconnectionid;
-            UserUserName = username;
-            UserImg = img;
+            //UserConnectionId = userconnectionid;
+            //UserUserName = username;
+            //UserImg = img;
+            var userIdIndex = $.inArray(userId, UserIdArr);
+            if (userIdIndex == -1) {
+                UserIdArr.push(userId);
+                var mess = [];
+                MessArr.push(mess);
+                var Li = '<li connectionId="'+userconnectionid+'" class="chatgroupLi" userId="' + userId + '" rowindex="' + MessArr.length-1 + '">' +
+                            '<img class="headimg" src="' + img + '"/>' +
+                            '<span class="name">' + username + '</span>' +
+                            '</li>';
+                $('.chatgroupUl').append(Li);
+            }
+            else
+            {
+
+                //var li = $('.chatgroupUl').find('.chatgroupLi').attr("userId", UserIdArr[userIdIndex]);
+                var li = $("li[userId='"+UserIdArr[userIdIndex]+"']");
+                li.attr("connectionId", userconnectionid);
+                if (UserIdArr[userIdIndex] != UserUserId) {
+                    li.css({ filter: 'none' });
+                    li.addClass("addnewColor");
+                }
+            }
         };
         chat.client.loseUserWarm = function () {
             //提示客服该用户已经掉线
             alert("抱歉！客户 " + UserUserName + " 可能由于网络原因已经掉线！");
             loseService();
+            //li.css({ filter: 'none' });
         };
         function SendMessage() {
             // Call the Send method on the hub.
-            if (UserConnectionId != "" && ServiceUserName != "" && $.trim($('.chatMainSendInput').val()) != "") {
-                chat.server.sSend(UserConnectionId, ServiceUserName, $('.chatMainSendInput').val());
-                common.userRender(ServiceUserName, $('.chatMainSendInput').val());
-                $('.chatMainSendInput').val('').focus();
+            if (UserConnectionId != "" && ServiceUserName != "" && $.trim(chatMainSendInput.val()) != "") {
+                chat.server.sSend(UserConnectionId, ServiceUserName, chatMainSendInput.val());
+                common.userRender2(ServiceUserName, chatMainSendInput.val());
+                chatMainSendInput.val('').focus();
             }
         }
     </script>

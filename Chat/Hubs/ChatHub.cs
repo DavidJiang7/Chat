@@ -107,7 +107,7 @@ namespace Chat
                         //反馈登录成功信息给用户，并说明已为其分配的客服人员信息
                         Clients.Caller.onConnected(service.FromConnectionId, service.UserName, service.Img);
                         //提醒客服有新的客户需要咨询
-                        Clients.Client(service.FromConnectionId).addNewClientTagToPage(Context.ConnectionId, userName, img);
+                        Clients.Client(service.FromConnectionId).addNewClientTagToPage(Context.ConnectionId, userID, userName, img);
                         ////通知其他所有用户，有新用户链接进来
                         //Clients.AllExcept(id).onNewUserConnected(id, userID, userName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     }
