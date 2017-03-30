@@ -166,30 +166,32 @@
             common.scrollBottom($('.chatMainContentUl'));
         },
         servRender2: function (userId, username, message) {
-            //        当前时间
-            var myDate = new Date();
-            var year = myDate.getFullYear();
-            var month = myDate.getMonth() + 1;
-            var day = myDate.getDate();
-            var hour = myDate.getHours();
-            var minute = myDate.getMinutes();
-            var second = myDate.getSeconds();
-            //用户对话框
-            var servchat2 =
-                '<li class="chatMainContentLi chatMainContentLiLeft">' +
-                '<img src="' + UserImg + '"/>' +
-                '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
-                '<ul><li><p>' + username + '</p></li>' +
-                '<li><p>' + year + '-' + common.Appendzero(month) + '-' + common.Appendzero(day) + '&nbsp;&nbsp;' + common.Appendzero
-                (hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
-                '</ul>' +
-                '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
-                '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + message + '</span>' +
-                '<div class="triangle-up triangle-upLeft"></div>' +
-                '</div></div>' +
-                '</li>';
-            $('.chatMainContentUl').append(servchat2);
-            common.scrollBottom($('.chatMainContentUl'));
+            if (userId == UserUserId) {
+                //        当前时间
+                var myDate = new Date();
+                var year = myDate.getFullYear();
+                var month = myDate.getMonth() + 1;
+                var day = myDate.getDate();
+                var hour = myDate.getHours();
+                var minute = myDate.getMinutes();
+                var second = myDate.getSeconds();
+                //用户对话框
+                var servchat2 =
+                    '<li class="chatMainContentLi chatMainContentLiLeft">' +
+                    '<img src="' + UserImg + '"/>' +
+                    '<div class="chatMainContentLiTime chatMainContentLiTimeLeft">' +
+                    '<ul><li><p>' + username + '</p></li>' +
+                    '<li><p>' + year + '-' + common.Appendzero(month) + '-' + common.Appendzero(day) + '&nbsp;&nbsp;' + common.Appendzero
+                    (hour) + ':' + common.Appendzero(minute) + ':' + common.Appendzero(second) + '</p></li>' +
+                    '</ul>' +
+                    '<div class="chatMainContentLiLear chatMainContentLiLeft">' +
+                    '<span class="chatMainContentLiChat chatMainContentLiChatLeft">' + message + '</span>' +
+                    '<div class="triangle-up triangle-upLeft"></div>' +
+                    '</div></div>' +
+                    '</li>';
+                $('.chatMainContentUl').append(servchat2);
+                common.scrollBottom($('.chatMainContentUl'));
+            }
             //调用函数添加最新消息到数组
             var newMess = { MESS_Id: 0, MESS_UserId: userId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: common.getNowTime(), MESS_Content: message, MESS_Author: 1 };
             common.unshiftMess(userId, newMess);
