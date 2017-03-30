@@ -116,6 +116,7 @@
                 '</div></div>' +
                 '</li>';
             $('.chatMainContentUl').append(userchat);
+            common.scrollBottom($('.chatMainContentUl'));
         },
         userRender2: function (username, headimg) {
             //        当前时间
@@ -140,11 +141,12 @@
                 '</div></div>' +
                 '</li>';
             $('.chatMainContentUl').append(userchat2);
+            common.scrollBottom($('.chatMainContentUl'));
+            //调用函数添加最新消息到数组
+            var newMess = { MESS_Id: 0, MESS_UserId: UserUserId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: common.getNowTime(), MESS_Content: chatMainSendInput.val(), MESS_Author: 2 };
+            common.unshiftMess(UserUserId, newMess);
             //            清空消息
             chatMainSendInput.val("");
-            //调用函数添加最新消息到数组
-            var newMess = { MESS_Id: 0, MESS_UserId: UserUserId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: new Date(), MESS_Content: chatMainSendInput.val(), MESS_Author: 2 };
-            unshiftMess(newMess);
         },
         servRender: function (username, headimg, date, reaultFinaly) {
             //用户对话框
@@ -161,8 +163,9 @@
                 '</div></div>' +
                 '</li>';
             $('.chatMainContentUl').append(servchat);
+            common.scrollBottom($('.chatMainContentUl'));
         },
-        servRender2: function (username, message) {
+        servRender2: function (userId, username, message) {
             //        当前时间
             var myDate = new Date();
             var year = myDate.getFullYear();
@@ -186,23 +189,23 @@
                 '</div></div>' +
                 '</li>';
             $('.chatMainContentUl').append(servchat2);
-
-            //            清空消息
-            //chatMainSendInput.val("");
+            common.scrollBottom($('.chatMainContentUl'));
             //调用函数添加最新消息到数组
-            var newMess = { MESS_Id: 0, MESS_UserId: UserUserId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: new Date(), MESS_Content: message, MESS_Author: 1 };
-            unshiftMess(newMess);
+            var newMess = { MESS_Id: 0, MESS_UserId: userId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: common.getNowTime(), MESS_Content: message, MESS_Author: 1 };
+            common.unshiftMess(userId, newMess);
         },
-        unshiftMess: function (messObj) {
-            if (RowIndex >= 0)
-            {
-                MessArr[RowIndex].unshift(messObj);
+        //添加新消息到消息数组
+        unshiftMess: function (userId, messObj) {
+            var userIdIndex = $.inArray(userId, UserIdArr);
+            if (userIdIndex >= 0) {
+                MessArr[userIdIndex].unshift(messObj);
             }
+        },
+        //构建标准时间戳
+        getNowTime: function () {
+            var now = (new Date()).getTime();
+            return time = '/Date(' + now + ')/';
         }
-    }
-    function addNewClientTagToPage(userConnectionId, userName, img) {
-        var div = '<div class="protMessage">用户已上线</div>';
-        $('body').append(div);
     }
     //  F5刷新
     $(document).keydown(function (e) {
@@ -240,6 +243,7 @@
         var ServiceUserId = 0;
         var ServiceNickName = "";
         var ServiceImg = "";
+        //当前选中的客户基础信息
         var UserImg = "";
         var UserConnectionId = "";
         var UserUserName = "";
@@ -273,7 +277,7 @@
                             //当登录状态链接失败时，后台会调用loginWarm
                             chat.server.sConnect(data.Data.UserId, data.Data.UserName, data.Data.Img, data.Data.ServiceMax);
                             $('.sendMegBtn').click(SendMessage);//绑定发送信息函数
-                            GetCurrentMess();
+                            GetCurrentMess();//获取最近聊天记录
                         });
                     }
                     else {
@@ -281,7 +285,10 @@
                     }
                 }
             });
+            //var li = $("li[rowindex=0]");//默认打开第一个客户的消息内容
+            //li.click();
         });
+        //当前已经连接进来的所有客户信息
         var UserIdArr = [];
         var MessArr = [];
         function GetCurrentMess() {
@@ -292,7 +299,7 @@
                 //data: { UserId: 1 },
                 success: function (data) {
                     $.each(data.Data, function (i) {
-                        var Li = '<li class="chatgroupLi" userId="' + data.Data[i].UserId + '" rowindex="' + i + '">' +
+                        var Li = '<li connectionId="" class="chatgroupLi"  userId="' + data.Data[i].UserId + '" rowindex="' + i + '">' +
                             '<img class="headimg" src="' + data.Data[i].Img + '"/>' +
                             '<span class="name">' + data.Data[i].UserName + '</span>' +
                             '</li>';
@@ -306,16 +313,17 @@
                     $('.chatgroupLi').css({ filter: 'grayscale(1)' });//默认掉线
                     $('.chatgroupLi').click(function () {
 
-                        $('.chatMainContentUl').text("");                        
+                        $('.chatMainContentUl').text("");
                         $(this).removeClass("addnewColor");
                         $(this).addClass('newcolor');
                         $(this).siblings().removeClass('newcolor')
                         $(this).find('span').css({ color: '#000' });
                         $(this).siblings().find('span').css({ color: '#fff' });
-                        UserUserId = $(this).attr('userId');
+                        UserUserId = parseInt($(this).attr('userId'));
                         RowIndex = $(this).attr('rowindex');
                         UserUserName = $(this).find('.name').text();
                         UserImg = $(this).find('.headimg').attr('src');
+                        UserConnectionId = $(this).attr('connectionId');
                         var messAutor = [];
                         var messTime = '';
                         var reault = [];
@@ -327,20 +335,17 @@
                             } else {
                                 messTime += '-' + (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
                             }
-                            reault.push(MessArr[RowIndex][j].MESS_Content);
-                            messAutor.push(MessArr[RowIndex][j].MESS_Author);
+                            reault.unshift(MessArr[RowIndex][j].MESS_Content);
+                            messAutor.unshift(MessArr[RowIndex][j].MESS_Author);
 
                         }
-
                         var dateArr = new Array();
-
                         dateArr = messTime.split('-').sort(sortNumber);
-
                         for (var m = 0; m < reault.length; m++) {
                             var reaultFinaly = reault[m];
                             date = common.UnixToDate((dateArr[m]), true);
+                            //console.log(date)
                             if (messAutor[m] == 2) {
-
                                 common.userRender(ServiceUserName, ServiceImg, date, reaultFinaly);
                             } else if (messAutor[m] == 1) {
                                 common.servRender(UserUserName, UserImg, date, reaultFinaly);
@@ -383,7 +388,7 @@
             //window.close();
             //弹出登录窗口
         };
-        chat.client.addNewClientTagToPage = function (userconnectionid,userId, username, img) {
+        chat.client.addNewClientTagToPage = function (userconnectionid, userId, username, img) {
             //这里需要注意：一个客服，同一时间段可以接受多个客户咨询，至于最多几个看客服的属性字段
             //例如在消息框中间显示某些提示文字信息，如“客户***需要咨询，近期可能会联系你”
             //UserConnectionId 为客户链接id， 需要保存在页面中，下次发送信息时带上此参数
@@ -397,20 +402,18 @@
                 UserIdArr.push(userId);
                 var mess = [];
                 MessArr.push(mess);
-                var Li = '<li connectionId="'+userconnectionid+'" class="chatgroupLi" userId="' + userId + '" rowindex="' + MessArr.length-1 + '">' +
+                var Li = '<li connectionId="' + userconnectionid + '" class="chatgroupLi" userId="' + userId + '" rowindex="' + MessArr.length - 1 + '">' +
                             '<img class="headimg" src="' + img + '"/>' +
                             '<span class="name">' + username + '</span>' +
                             '</li>';
                 $('.chatgroupUl').append(Li);
             }
-            else
-            {
-
+            else {
                 //var li = $('.chatgroupUl').find('.chatgroupLi').attr("userId", UserIdArr[userIdIndex]);
-                var li = $("li[userId='"+UserIdArr[userIdIndex]+"']");
+                var li = $("li[userId='" + UserIdArr[userIdIndex] + "']");
                 li.attr("connectionId", userconnectionid);
+                li.css({ filter: 'none' });
                 if (UserIdArr[userIdIndex] != UserUserId) {
-                    li.css({ filter: 'none' });
                     li.addClass("addnewColor");
                 }
             }
@@ -425,7 +428,7 @@
             // Call the Send method on the hub.
             if (UserConnectionId != "" && ServiceUserName != "" && $.trim(chatMainSendInput.val()) != "") {
                 chat.server.sSend(UserConnectionId, ServiceUserName, chatMainSendInput.val());
-                common.userRender2(ServiceUserName, chatMainSendInput.val());
+                common.userRender2(ServiceUserName, ServiceImg);
                 chatMainSendInput.val('').focus();
             }
         }

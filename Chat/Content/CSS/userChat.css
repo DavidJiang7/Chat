@@ -1,273 +1,324 @@
-*{
-    margin:0;
+* {
+    margin: 0;
     padding: 0;
 }
-li{
+
+li {
     list-style: none;
 }
+
 .newcolor {
-    background:rgba(255, 255, 255, 0.50);
+    background: rgba(255, 255, 255, 0.50);
 }
+
 .addnewColor {
-     background:#3cb371;
+    background: #3cb371;
 }
-#CustomerService{
-    width:640px;
-    height:507px;
-    margin:180px auto;
-    color:#fff;
+
+#CustomerService {
+    width: 640px;
+    height: 507px;
+    margin: 180px auto;
+    color: #fff;
     font-family: '微软雅黑';
 }
-.chatgroup{
-    width:140px;
-    height:507px;
-    background:rgba(186, 202, 198,1);
+
+.chatgroup {
+    width: 140px;
+    height: 507px;
+    background: rgba(186, 202, 198,1);
     float: left;
     border-radius: 2px;
+    overflow: hidden;
+    overflow-y: auto;
 }
-.chatgroupUl{
+
+.chatgroupUl {
     width: 130px;
-    height:507px;
-    margin:0 auto;
+    height: 507px;
+    margin: 0 auto;
 }
-.chatgroupLi{
-    width:130px;
-    height:40px;
+
+.chatgroupLi {
+    width: 130px;
+    height: 40px;
     margin: 8px 0;
-    padding-left:3px;
-    border-radius:4px;
+    padding-left: 3px;
+    border-radius: 4px;
     cursor: pointer;
 }
-.chatgroupLi img{
-    width:35px;
-    height:35px;
-    border-radius: 50%;
-}
-.chatgroupLi span{
-    font-size: 12px;
-    font-family: Arial;
-    line-height: 40px;
-    padding-left:10px;
-}
-.chatgroupLi label{
-    width:15px;
-    height:15px;
-    border-radius: 50%;
-    line-height: 15px;
-    text-align: center;
-    margin-left: 23px;
-}
-.chatgroupLi:hover{background: rgba(255,255,255,0.2)}
-.chatgroupLi label:hover{background: rgba(0,0,0,0.3)}
-#chat{
-    width:500px;
-    height:507px;
-    border:solid 1px #ccc;
+
+    .chatgroupLi img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+    }
+
+    .chatgroupLi span {
+        font-size: 12px;
+        font-family: Arial;
+        line-height: 40px;
+        padding-left: 10px;
+    }
+
+    .chatgroupLi label {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        line-height: 15px;
+        text-align: center;
+        margin-left: 23px;
+    }
+
+    .chatgroupLi:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .chatgroupLi label:hover {
+        background: rgba(0,0,0,0.3);
+    }
+
+#chat {
+    width: 500px;
+    height: 507px;
+    border: solid 1px #ccc;
     border-radius: 4px;
     background: #fff;
     /*display: none;*/
     z-index: 99999;
     float: left;
 }
-.input-group{
-    width:70%;
+
+.input-group {
+    width: 70%;
     margin: 0 auto;
 }
-.operation{
-    width:100%;
-    height:70px;
+
+.operation {
+    width: 100%;
+    height: 70px;
     background: rgba(211,211,211,0.2);
 }
-.titleImg{
+
+.titleImg {
     float: left;
-    display:flex;
+    display: flex;
     justify-content: flex-end;
 }
-.titleImg img{
-    width:45px;
-    height:45px;
-    border-radius: 50%;
-    margin-top: 13px;
-    margin-left: 10px;
+
+    .titleImg img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        margin-top: 13px;
+        margin-left: 10px;
+    }
+
+    .titleImg i {
+        line-height: 65px;
+        margin-left: 5px;
+        color: #333;
+        font-style: normal;
+    }
+
+.chatMain {
+    width: 100%;
+    height: 400px;
 }
-.titleImg i{
-    line-height: 65px;
-    margin-left: 5px;
-    color: #333;
-    font-style: normal;
-}
-.chatMain{
-    width:100%;
-    height:400px;
-}
-.chatMainContentUl{
-    width:100%;
-    height:302px;
+
+.chatMainContentUl {
+    width: 100%;
+    height: 302px;
     background: #fff;
     overflow-y: auto;
     font-family: 微软雅黑;
 }
-.chatMainContentLi{
+
+.chatMainContentLi {
     margin-top: 20px;
-    width:97%;
-    min-height:55px;
+    width: 97%;
+    min-height: 55px;
 }
-.chatMainContentLi img{
-    width:40px;
-    height:40px;
-    border-radius: 50%;
-    float: right;
-}
-.chatMainContentLiLeft{
+
+    .chatMainContentLi img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        float: right;
+    }
+
+.chatMainContentLiLeft {
     display: flex;
     justify-content: flex-start;
     margin-left: 10px;
 }
 
-.chatMainContentLiTime{
-    width:90%;
-    height:100%;
+.chatMainContentLiTime {
+    width: 90%;
+    height: 100%;
 }
-.chatMainContentLiTime ul{
-    font-size: 10px;
-    color:#9d9d9d;
-    padding-top: 7px;
-    display: flex;
-    font-family: '微软雅黑';
-}
-.chatMainContentLiTimeRight ul{
+
+    .chatMainContentLiTime ul {
+        font-size: 10px;
+        color: #9d9d9d;
+        padding-top: 7px;
+        display: flex;
+        font-family: '微软雅黑';
+    }
+
+.chatMainContentLiTimeRight ul {
     justify-content: flex-end;
     margin-right: 15px;
 }
-.chatMainContentLiTimeLeft ul{
+
+.chatMainContentLiTimeLeft ul {
     justify-content: flex-start;
     margin-left: 23px;
 }
-.chatMainContentLiTime ul li:nth-child(1) p{
+
+.chatMainContentLiTime ul li:nth-child(1) p {
     line-height: 12px;
 }
-.chatMainContentLiTime ul li:nth-child(2) p{
+
+.chatMainContentLiTime ul li:nth-child(2) p {
     line-height: 12px;
     margin-left: 8px;
 }
-.chatMainContentLiTime ul li:nth-child(3) p{
+
+.chatMainContentLiTime ul li:nth-child(3) p {
     margin-left: 10px;
     line-height: 10px;
 }
-.chatMainContentLiLear{
-    width:100%;
+
+.chatMainContentLiLear {
+    width: 100%;
     position: relative;
     margin-top: 7px;
 }
-.chatMainContentLiChat{
-    max-width:100%;
+
+.chatMainContentLiChat {
+    max-width: 100%;
     line-height: 15px;
     border-radius: 4px;
     background: mediumseagreen;
-    font-size:14px;
-    color:#fff;
+    font-size: 14px;
+    color: #fff;
 }
-.chatMainContentLiChatRight{
-    padding:8px 15px 8px 8px;
-    margin-right:10px;
+
+.chatMainContentLiChatRight {
+    padding: 8px 15px 8px 8px;
+    margin-right: 10px;
     float: right;
 }
-.chatMainContentLiChatLeft{
-    padding:8px 8px 8px 15px;
-    margin-left:10px;
+
+.chatMainContentLiChatLeft {
+    padding: 8px 8px 8px 15px;
+    margin-left: 10px;
     float: left;
 }
-.triangle-up{
-    width:0;
-    height:0;
-    border-left:20px solid transparent;
-    border-right:0px solid transparent;
-    border-bottom:22px solid mediumseagreen;
+
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 22px solid mediumseagreen;
     position: absolute;
-    top:-4px;
+    top: -4px;
     transform: rotate(45deg);
 }
-.triangle-upRight{
-    right:1px;
+
+.triangle-upRight {
+    right: 1px;
 }
-.triangle-upleft{
-    left:8px;
+
+.triangle-upleft {
+    left: 8px;
 }
-.chatMainSendContent{
-    width:100%;
-    height:117px;
-    border-top:solid 1px #ccc;
+
+.chatMainSendContent {
+    width: 100%;
+    height: 117px;
+    border-top: solid 1px #ccc;
     background: #fff;
     margin-top: 10px;
     position: relative;
 }
-.sendMegBtn{
-    width:80px;
-    height:30px;
+
+.sendMegBtn {
+    width: 80px;
+    height: 30px;
     background: mediumseagreen;
-    border:none;
+    border: none;
     border-radius: 2px;
     position: absolute;
-    right:4px;
+    right: 4px;
     bottom: 3px;
     font-family: 微软雅黑;
     font-size: 14px;
-    color:#fff;
+    color: #fff;
     line-height: 30px;
 }
-.chatMainSendInput{
-    width:99%;
-    height:82px;
+
+.chatMainSendInput {
+    width: 99%;
+    height: 82px;
     outline: none;
-    border:none;
+    border: none;
     resize: none;
-    color:#000;
+    color: #000;
     padding-left: 3px;
     padding-top: 3px;
 }
-#refresh{
+
+#refresh {
     width: 100%;
-    height:100%;
+    height: 100%;
     background: rgba(0,0,0,0.2);
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     font-family: 微软雅黑;
     display: none;
 }
-.refresh{
-    width:300px;
-    height:170px;
+
+.refresh {
+    width: 300px;
+    height: 170px;
     background: #fff;
-    border:solid 1px #eee;
-    margin:200px auto;
+    border: solid 1px #eee;
+    margin: 200px auto;
     border-radius: 10px;
 }
-.refreshContent{
-    width:200px;
-    height:130px;
+
+.refreshContent {
+    width: 200px;
+    height: 130px;
     text-align: center;
-    margin:40px auto 0;
+    margin: 40px auto 0;
 }
-.refreshContent p{
-    margin-bottom: 40px;
-}
-.refreshBtn{
-    width:50px;
-    height:25px;
+
+    .refreshContent p {
+        margin-bottom: 40px;
+    }
+
+.refreshBtn {
+    width: 50px;
+    height: 25px;
     background: rgba(217,83,79,1);
     border-radius: 4px;
     line-height: 25px;
-    color:#fff;
-    border:none;
+    color: #fff;
+    border: none;
     outline: none;
 }
-.protMessage{
-    width:190px;
+
+.protMessage {
+    width: 190px;
     height: 20px;
-    color:#fff;
-    text-align:center;
+    color: #fff;
+    text-align: center;
     border-radius: 2px;
     background: rgba(0,0,0,0.3);
-    margin:10px auto;
+    margin: 10px auto;
 }

@@ -44,7 +44,7 @@ namespace Chat
                 Clients.Caller.loseServiceWarm();
                 return;
             }
-            Clients.Client(toConnectionId).addNewMessageToPage(name, message);
+            Clients.Client(toConnectionId).addNewMessageToPage(u.UserId, name, message);
             Servers.Mess.AddMessage(u.UserId, s.UserId, 1, message, Models.MessageAuthor.User);
         }
 
