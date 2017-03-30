@@ -30,13 +30,13 @@ li {
     float: left;
     border-radius: 2px;
     overflow: hidden;
-    overflow-y: auto;
 }
 
 .chatgroupUl {
     width: 130px;
     height: 507px;
     margin: 0 auto;
+    overflow-y: auto;
 }
 
 .chatgroupLi {

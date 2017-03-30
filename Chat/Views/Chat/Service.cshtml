@@ -92,12 +92,12 @@
             var time = new Date(unixTime * 1000);
             var ymdhis = "";
             ymdhis += time.getUTCFullYear() + "-";
-            ymdhis += (time.getUTCMonth() + 1) + "-";
-            ymdhis += time.getUTCDate() + "&nbsp;&nbsp;";
+            ymdhis += common.Appendzero((time.getUTCMonth() + 1)) + "-";
+            ymdhis += common.Appendzero(time.getUTCDate()) + "&nbsp;&nbsp;";
             if (isFull == true) {
-                ymdhis += time.getUTCHours() + ":";
-                ymdhis += time.getUTCMinutes() + ":";
-                ymdhis += time.getUTCSeconds();
+                ymdhis += common.Appendzero(time.getUTCHours()) + ":";
+                ymdhis += common.Appendzero(time.getUTCMinutes()) + ":";
+                ymdhis += common.Appendzero(time.getUTCSeconds());
             }
             return ymdhis;
         },
@@ -167,7 +167,7 @@
         },
         servRender2: function (userId, username, message) {
             if (userId == UserUserId) {
-                //        当前时间
+                //当前时间
                 var myDate = new Date();
                 var year = myDate.getFullYear();
                 var month = myDate.getMonth() + 1;
@@ -191,6 +191,11 @@
                     '</li>';
                 $('.chatMainContentUl').append(servchat2);
                 common.scrollBottom($('.chatMainContentUl'));
+            }
+            else
+            {
+                //高亮左边客户消息栏
+                $("li[userId='" + userId + "']").addClass("addnewColor");//默认打开第一个客户的消息内容
             }
             //调用函数添加最新消息到数组
             var newMess = { MESS_Id: 0, MESS_UserId: userId, MESS_ServiceId: ServiceUserId, MESS_Status: 1, MESS_TypeId: 1, MESS_CreateTime: common.getNowTime(), MESS_Content: message, MESS_Author: 1 };
