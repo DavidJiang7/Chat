@@ -310,6 +310,13 @@
                 dataType: 'json',
                 //data: { UserId: 1 },
                 success: function (data) {
+                    if (data.Code != 0) {
+                        alert(data.Message);
+                        return;
+                    }
+                    if (data.Data == null || data.Data.length == 0) {
+                        return;
+                    }
                     $.each(data.Data, function (i) {
                         var Li = '<li connectionId="" class="chatgroupLi"  userId="' + data.Data[i].UserId + '" rowindex="' + i + '">' +
                             '<img class="headimg" src="' + data.Data[i].Img + '"/>' +
@@ -323,53 +330,53 @@
                         MessArr.push(mess);
                     })
                     $('.chatgroupLi').css({ filter: 'grayscale(1)' });//默认掉线
-                    $('body').on('click', '.chatgroupLi', function () {
-
-                        $('.chatMainContentUl').text("");
-                        $(this).removeClass("addnewColor");
-                        $(this).addClass('newcolor');
-                        $(this).siblings().removeClass('newcolor')
-                        $(this).find('span').css({ color: '#000' });
-                        $(this).siblings().find('span').css({ color: '#fff' });
-                        UserUserId = parseInt($(this).attr('userId'));
-                        RowIndex = $(this).attr('rowindex');
-                        UserUserName = $(this).find('.name').text();
-                        UserImg = $(this).find('.headimg').attr('src');
-                        UserConnectionId = $(this).attr('connectionId');
-                        var messAutor = [];
-                        var messTime = '';
-                        var reault = [];
-                        var newIndex = [];
-
-                        for (var j = 0; j < MessArr[RowIndex].length; j++) {
-                            if (j == 0) {
-                                messTime = (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
-                            } else {
-                                messTime += '-' + (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
-                            }
-                            reault.unshift(MessArr[RowIndex][j].MESS_Content);
-                            messAutor.unshift(MessArr[RowIndex][j].MESS_Author);
-
-                        }
-                        var dateArr = new Array();
-                        dateArr = messTime.split('-').sort(sortNumber);
-                        for (var m = 0; m < reault.length; m++) {
-                            var reaultFinaly = reault[m];
-                            date = common.UnixToDate((dateArr[m]), true);
-                            //console.log(date)
-                            if (messAutor[m] == 2) {
-                                common.userRender(ServiceUserName, ServiceImg, date, reaultFinaly);
-                            } else if (messAutor[m] == 1) {
-                                common.servRender(UserUserName, UserImg, date, reaultFinaly);
-                            }
-                        }
-                        function sortNumber(a, b) {
-                            return a - b
-                        }
-                        common.scrollBottom($('.chatMainContentUl'));
-                    })
 
                 }
+            });
+            $('body').on('click', '.chatgroupLi', function () {
+
+                $('.chatMainContentUl').text("");
+                $(this).removeClass("addnewColor");
+                $(this).addClass('newcolor');
+                $(this).siblings().removeClass('newcolor')
+                $(this).find('span').css({ color: '#000' });
+                $(this).siblings().find('span').css({ color: '#fff' });
+                UserUserId = parseInt($(this).attr('userId'));
+                RowIndex = $(this).attr('rowindex');
+                UserUserName = $(this).find('.name').text();
+                UserImg = $(this).find('.headimg').attr('src');
+                UserConnectionId = $(this).attr('connectionId');
+                var messAutor = [];
+                var messTime = '';
+                var reault = [];
+                var newIndex = [];
+
+                for (var j = 0; j < MessArr[RowIndex].length; j++) {
+                    if (j == 0) {
+                        messTime = (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
+                    } else {
+                        messTime += '-' + (MessArr[RowIndex][j].MESS_CreateTime).substr(6, 10);
+                    }
+                    reault.unshift(MessArr[RowIndex][j].MESS_Content);
+                    messAutor.unshift(MessArr[RowIndex][j].MESS_Author);
+
+                }
+                var dateArr = new Array();
+                dateArr = messTime.split('-').sort(sortNumber);
+                for (var m = 0; m < reault.length; m++) {
+                    var reaultFinaly = reault[m];
+                    date = common.UnixToDate((dateArr[m]), true);
+                    //console.log(date)
+                    if (messAutor[m] == 2) {
+                        common.userRender(ServiceUserName, ServiceImg, date, reaultFinaly);
+                    } else if (messAutor[m] == 1) {
+                        common.servRender(UserUserName, UserImg, date, reaultFinaly);
+                    }
+                }
+                function sortNumber(a, b) {
+                    return a - b
+                }
+                common.scrollBottom($('.chatMainContentUl'));
             })
         }
         //掉线处理
