@@ -295,7 +295,10 @@ namespace Chat
                             var res = ConnectedServices.FindIndex(it => it.FromConnectionId == item.ToConnectionId);
                             if (res >= 0)
                             {
+                                //更新同时服务人数
                                 ConnectedServices[res].ServiceNow = ConnectedServices[res].ServiceNow - 1 >= 0 ? ConnectedServices[res].ServiceNow - 1 : 0;
+                                //客服界面对应用户做掉线处理
+                                Clients.Client(item.ToConnectionId).userLogout(Context.ConnectionId);
                             }
                         }
                     }

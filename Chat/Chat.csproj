@@ -218,15 +218,15 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\CSS\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\CSS\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\CSS\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\CSS\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\CSS\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\CSS\fonts\FontAwesome.otf" />
+    <Content Include="Content\CSS\fonts\iconfont.eot" />
     <Content Include="Content\CSS\fonts\iconfont.svg" />
+    <Content Include="Content\CSS\fonts\iconfont.ttf" />
+    <Content Include="Content\CSS\fonts\iconfont.woff" />
     <Content Include="Content\CSS\iconfont.css" />
     <Content Include="Content\CSS\userChat.css" />
+    <Content Include="Content\Images\default.png" />
     <Content Include="Content\Images\jdw.png" />
     <Content Include="Content\Images\ls.png" />
     <Content Include="Content\Images\xyp.png" />
@@ -237,14 +237,15 @@
     <Content Include="Content\JS\chathubuser.js" />
     <Content Include="Content\JS\jquery.cookie.js" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\iconfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\CSS\fonts\iconfont.eot" />
-    <Content Include="Content\CSS\fonts\iconfont.ttf" />
-    <Content Include="Content\CSS\fonts\iconfont.woff" />
     <EntityDeploy Include="ChatModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ChatModel.Designer.cs</LastGenOutput>
@@ -252,6 +253,14 @@
     <Content Include="ChatModel.edmx.diagram">
       <DependentUpon>ChatModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\CSS\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\CSS\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\CSS\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\CSS\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\CSS\fonts\FontAwesome.otf" />
+    <Content Include="fonts\iconfont.eot" />
+    <Content Include="fonts\iconfont.ttf" />
+    <Content Include="fonts\iconfont.woff" />
     <None Include="Properties\PublishProfiles\麦子网客服.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -267,7 +276,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Content\CSS\font-awesome.css" />
     <Content Include="Content\JS\jquery-3.1.1.min.js" />
     <Content Include="Content\JS\jquery-ui.js" />
     <Content Include="Web.config">
@@ -296,9 +304,6 @@
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

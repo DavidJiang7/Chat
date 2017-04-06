@@ -77,6 +77,10 @@
         scrollBottom: function (obj) {
             obj.scrollTop(obj[0].scrollHeight);
         },
+        Connected: function (meaasge) {
+            var div = '<li class="protMessage">' + meaasge + '</li>';
+            $('.chatMainContentUl').append(div);
+        },
         userRender: function (username, message) {
             //        当前时间
             var myDate = new Date();
@@ -240,31 +244,37 @@
         // Create a function that the hub can call back to display messages.
         chat.client.addNewMessageToPage = common.servRender;
         chat.client.busy = function () {
-            alert("抱歉！客服正处于忙碌状态！请稍后刷新重试！");
+            //alert("抱歉！客服正处于忙碌状态！请稍后刷新重试！");
+            common.Connected("抱歉！客服正处于忙碌状态！请稍后刷新重试！");
         };
         chat.client.loginWarm = function () {
-            alert(UserUserName + "，您的登录状态已失效！请重新登录！");
+            //alert(UserUserName + "，您的登录状态已失效！请重新登录！");
+            common.Connected(UserUserName + "，您的登录状态已失效！请重新登录！");
             //window.close();
             //跳转到登录页面代码
         };
         chat.client.onUserDisconnected = function (username) {
             //掉线提示
-            var div = '<div class="protMessage">警告！' + UserUserName + '，您的账户已经在其他地方登录！</div>';
-            $('body').append(div);
+            //var div = '<div class="protMessage">警告！' + UserUserName + '，您的账户已经在其他地方登录！</div>';
+            //$('body').append(div);
+            common.Connected('警告！' + UserUserName + '，您的账户已经在其他地方登录！');
             loseService();
         };
         chat.client.onConnected = function (serviceconnectionid, username, img) {
-            var div = '<div class="protMessage">已为您分配客服：' + username + '</div>';
-            $('body').append(div);
+            //var div = '<div class="protMessage">已为您分配客服：' + username + '</div>';
+            //$('body').append(div);
+            common.Connected('已为您分配客服:' + username);
             ServiceConnectionid = serviceconnectionid;
             ServiceUsername = username;
             ServiceImg = img;
         };
         chat.client.loseServiceWarm = function () {
             //提示用户客服已经掉线，刷新页面，重新链接
-            var div = '<div class="protMessage">抱歉！为您分配的客服 ' + ServiceUserName + ' 可能由于网络原因已经掉线，请刷新重试！</div>';
-            $('body').append(div);
-            loseService();
+            //var div = '<div class="protMessage">抱歉！为您分配的客服 ' + ServiceUserName + ' 可能由于网络原因已经掉线，请刷新重试！</div>';
+            //$('body').append(div);
+            common.Connected('抱歉！为您分配的客服 ' + ServiceUsername + ' 已经掉线，请刷新重试！');
+            //loseService();
+            common.scrollBottom($('.chatMainContentUl'));
         };
         function SendMessage() {
             // Call the Send method on the hub.

@@ -18,7 +18,7 @@ li {
 #CustomerService {
     width: 640px;
     height: 507px;
-    margin: 140px auto;
+    margin: 80px auto;
     color: #fff;
     font-family: '微软雅黑';
 }
@@ -313,12 +313,13 @@ li {
     outline: none;
 }
 
-.protMessage {
-    width: 190px;
-    height: 20px;
-    color: #fff;
+.protMessage {  
+    color: #9d9d9d;
     text-align: center;
     border-radius: 2px;
-    background: rgba(0,0,0,0.3);
-    margin: 10px auto;
+    margin: 20px auto 0px;
+    width: 97%;
+}
+.chatMainContentUl li:nth-child(1) {
+   margin-top:0px;
 }

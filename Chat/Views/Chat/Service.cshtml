@@ -91,15 +91,19 @@
             }
             var time = new Date(unixTime * 1000);
             var ymdhis = "";
-            ymdhis += time.getUTCFullYear() + "-";
-            ymdhis += common.Appendzero((time.getUTCMonth() + 1)) + "-";
-            ymdhis += common.Appendzero(time.getUTCDate()) + "&nbsp;&nbsp;";
+            ymdhis += time.getFullYear() + "-";
+            ymdhis += common.Appendzero((time.getMonth() + 1)) + "-";
+            ymdhis += common.Appendzero(time.getDate()) + "&nbsp;&nbsp;";
             if (isFull == true) {
-                ymdhis += common.Appendzero(time.getUTCHours()) + ":";
-                ymdhis += common.Appendzero(time.getUTCMinutes()) + ":";
-                ymdhis += common.Appendzero(time.getUTCSeconds());
+                ymdhis += common.Appendzero(time.getHours()) + ":";
+                ymdhis += common.Appendzero(time.getMinutes()) + ":";
+                ymdhis += common.Appendzero(time.getSeconds());
             }
             return ymdhis;
+        },
+        Connected:function (meaasge) {
+            //var div = '<div class="protMessage">'+meaasge+'</div>';
+            //$('.chatMainContentUl').before(div);
         },
         userRender: function (username, headimg, date, message) {
             //用户对话框
@@ -298,6 +302,7 @@
         //当前已经连接进来的所有客户信息
         var UserIdArr = [];
         var MessArr = [];
+        //获取最近聊天记录
         function GetCurrentMess() {
             $.ajax({
                 type: 'get',
@@ -318,7 +323,7 @@
                         MessArr.push(mess);
                     })
                     $('.chatgroupLi').css({ filter: 'grayscale(1)' });//默认掉线
-                    $('.chatgroupLi').click(function () {
+                    $('body').on('click', '.chatgroupLi', function () {
 
                         $('.chatMainContentUl').text("");
                         $(this).removeClass("addnewColor");
@@ -367,6 +372,7 @@
                 }
             })
         }
+        //掉线处理
         function loseService() {
             ServiceUserName = "";
             ServiceUserId = 0;
@@ -400,16 +406,18 @@
             //例如在消息框中间显示某些提示文字信息，如“客户***需要咨询，近期可能会联系你”
             //UserConnectionId 为客户链接id， 需要保存在页面中，下次发送信息时带上此参数
             //userName 客户名称，需要保存在页面中，下次发送信息时带上此参数
-            alert("客户" + username + " 已经接入，近期会咨询您！");
             //UserConnectionId = userconnectionid;
             //UserUserName = username;
             //UserImg = img;
+
+            //alert("客户" + username + " 已经接入，近期会咨询您！");
             var userIdIndex = $.inArray(userId, UserIdArr);
             if (userIdIndex == -1) {
                 UserIdArr.push(userId);
                 var mess = [];
                 MessArr.push(mess);
-                var Li = '<li connectionId="' + userconnectionid + '" class="chatgroupLi" userId="' + userId + '" rowindex="' + MessArr.length - 1 + '">' +
+                var r = MessArr.length - 1;
+                var Li = '<li connectionId="' + userconnectionid + '" class="chatgroupLi addnewColor" userId="' + userId + '"  rowindex="' + r + '">' +
                             '<img class="headimg" src="' + img + '"/>' +
                             '<span class="name">' + username + '</span>' +
                             '</li>';
@@ -425,12 +433,27 @@
                 }
             }
         };
+        //客服发送信息时发现客户掉线的主动处理
         chat.client.loseUserWarm = function () {
             //提示客服该用户已经掉线
             alert("抱歉！客户 " + UserUserName + " 可能由于网络原因已经掉线！");
-            loseService();
-            //li.css({ filter: 'none' });
+
+            var li = $("li[userId='" + UserUserId + "']");
+            li.attr("connectionId", '');
+            li.css({ filter: 'grayscale(1)' });//掉线处理
+            UserImg = "";
+            UserConnectionId = "";
+            UserUserName = "";
+            UserUserId = 0;
+            RowIndex = -1;
         };
+        //客户掉线被动处理
+        chat.client.userLogout = function (userconnectionid) {
+            var li = $("li[connectionId='" + userconnectionid + "']");
+            li.attr("connectionId", '');
+            li.removeClass("addnewColor");//掉线处理
+            li.css({ filter: 'grayscale(1)' });//掉线处理
+        }
         function SendMessage() {
             // Call the Send method on the hub.
             if (UserConnectionId != "" && ServiceUserName != "" && $.trim(chatMainSendInput.val()) != "") {
