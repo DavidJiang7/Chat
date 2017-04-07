@@ -272,7 +272,7 @@
             //提示用户客服已经掉线，刷新页面，重新链接
             //var div = '<div class="protMessage">抱歉！为您分配的客服 ' + ServiceUserName + ' 可能由于网络原因已经掉线，请刷新重试！</div>';
             //$('body').append(div);
-            common.Connected('抱歉！为您分配的客服 ' + ServiceUsername + ' 已经掉线，请刷新重试！');
+            common.Connected('抱歉！为您分配的客服 ' + ServiceUsername + ' 已经下线，请刷新重试！');
             //loseService();
             common.scrollBottom($('.chatMainContentUl'));
         };
@@ -283,6 +283,7 @@
                 common.userRender(UserUserName, $('.chatMainSendInput').val());
                 $('.chatMainSendInput').val('').focus();
             }
+            common.scrollBottom($('.chatMainContentUl'));
         }
     </script>
 }
