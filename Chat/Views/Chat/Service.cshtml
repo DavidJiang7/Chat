@@ -443,7 +443,8 @@
         //客服发送信息时发现客户掉线的主动处理
         chat.client.loseUserWarm = function () {
             //提示客服该用户已经掉线
-            alert("抱歉！客户 " + UserUserName + " 可能由于网络原因已经下线！");
+            //alert("抱歉！客户 " + UserUserName + " 可能由于网络原因已经下线！");
+            common.Connected("抱歉！对方已下线！");
 
             var li = $("li[userId='" + UserUserId + "']");
             li.attr("connectionId", '');
